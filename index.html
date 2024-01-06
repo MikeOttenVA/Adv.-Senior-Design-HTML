@@ -1,7 +1,22 @@
-<!-- Created By: Michael Ottenberg
+<!--Created By: Michael Ottenberg
+    George Mason University Advanced Senior Design Project
+    Collaborators: Dr. Liling Huang, Dr. Jens Peter Kaps
+    Amirali Jahdi, Ben Weaver, David Rowe, Gorgi Kirovski, Patrick Wilkins
+
     Template Idea from: https://www.youtube.com/watch?v=qlA7dputiNc
-    Uses Flexbox grid for easier stylization: http://flexboxgrid.com/
-    Code languages used: CSS, HTML, and eventually JavaScript
+    Uses Flexbox grid and AwesomeFont for easier stylization: http://flexboxgrid.com/
+    Code languages used: CSS, HTML, and JavaScript
+
+    ToDo List:
+    - Implement scripting language, needs to handle
+        - Changing of color of individual server pieces (red, orange, yellow, green)
+        - Updating THD % on servers
+    - Improve design of how servers will look, i.e.,
+        - How many servers are in each rack?
+        - How to handle 1u, 2u, 3u servers
+        - Can the user customize this?
+            - For now no, I want it preprogrammed
+            - In future might implement plug-and-play where this info is filled out via MCU
 -->
 
 <!DOCTYPE html>
@@ -17,6 +32,8 @@
         <!-- Links outside references like flexbox -->
         <link rel="stylesheet" href="css/flexboxgrid.css">
         <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/font-awesome.css">
+        <script src="https://kit.fontawesome.com/9dcebbc14a.js" crossorigin="anonymous"></script>
     </head>
 
     <!--Anything important to human interaction--
@@ -25,20 +42,27 @@
         <!-- HEADER -->
         <header id="main-header">
             <div class="container">
-                <div class="row end-sm end-md end-lg">
-                    <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
-                        <h1><span class="primary-text">Data Center Demo</span></h1>
-                    </div>
-                    <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
-                        <nav id="navbar">
-                            <ul>
-                                <li><a href="index.html">Home</a></li> 
-                                <!-- Probably won't need these extra links-->
-                                <li><a href="index.html">Place Holder</a></li> 
-                                <li><a href="index.html">Place Holder</a></li> 
-                                <li><a href="index.html">Place Holder</a></li> 
-                            </ul>
-                        </nav>
+                <div class="header1">
+                    <div class="row center-xs center-sm center-md center-lg middle-xs middle-sm middle-md middle-lg">
+                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2">
+                            <img src="images/GMU_PLogo_4CP.png" alt="George Mason University" style="width:175px;height:110px">
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-2 col-lg-3">
+                            <div class="flex1">
+                                <h1><span class="primary-text">Data Center Demo</span></h1>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 col-md-7 col-lg-7">
+                            <nav id="navbar">
+                                <ul>
+                                    <li><a href="index.html">Home</a></li> 
+                                    <!-- Probably won't need these extra links-->
+                                    <li><a href="index.html">Place Holder</a></li> 
+                                    <li><a href="index.html">Place Holder</a></li> 
+                                    <li><a href="index.html">Place Holder</a></li> 
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -56,15 +80,16 @@
             </div>
         </section>
 
-        <!-- FEATURES -->
-        <section id="features">
+        <!-- Servers -->
+        <section id="servers">
             <div class="row center-xs center-sm center-md center-lg middle-xs middle-sm middle-md middle-lg">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <h2>Place Holder Header</h2>
+                    <h2>Data Center Servers</h2>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>                    <!-- ICON ROW 1-->
                     <div class="row center-xs center-sm center-md center-lg middle-xs middle-sm middle-md middle-lg">
                         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                            <h4>Server Rack 1</h4>
+                            <i class="fa-solid fa-server"></i><br>
+                            <h4>Rack 1</h4>
                             <ol>
                                 <li>Lorem ipsum dolor.</li>
                                 <li>Lorem ipsum dolor.</li>
@@ -75,7 +100,8 @@
                             </ol>
                         </div>
                         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                            <h4>Server Rack 2</h4>
+                            <i class="fa-solid fa-server"></i><br>
+                            <h4>Rack 2</h4>
                             <ol>
                                 <li>Lorem ipsum dolor.</li>
                                 <li>Lorem ipsum dolor.</li>
@@ -86,7 +112,8 @@
                             </ol>
                         </div>
                         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                            <h4>Server Rack 3</h4>
+                            <i class="fa-solid fa-server"></i><br>
+                            <h4>Rack 3</h4>
                             <ol>
                                 <li>Lorem ipsum dolor.</li>
                                 <li>Lorem ipsum dolor.</li>
@@ -100,7 +127,8 @@
                     <!-- ICON ROW 2-->
                     <div class="row center-xs center-sm center-md center-lg middle-xs middle-sm middle-md middle-lg">
                         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                            <h4>Server Rack 4</h4>
+                            <i class="fa-solid fa-server"></i><br>
+                            <h4>Rack 4</h4>
                             <ol>
                                 <li>Lorem ipsum dolor.</li>
                                 <li>Lorem ipsum dolor.</li>
@@ -111,7 +139,8 @@
                             </ol>
                         </div>
                         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                            <h4>Server Rack 5</h4>
+                            <i class="fa-solid fa-server"></i><br>
+                            <h4>Rack 5</h4>
                             <ol>
                                 <li>Lorem ipsum dolor.</li>
                                 <li>Lorem ipsum dolor.</li>
@@ -122,7 +151,8 @@
                             </ol>
                         </div>
                         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                            <h4>Server Rack 6</h4>
+                            <i class="fa-solid fa-server"></i><br>
+                            <h4>Rack 6</h4>
                             <ol>
                                 <li>Lorem ipsum dolor.</li>
                                 <li>Lorem ipsum dolor.</li>
@@ -135,5 +165,36 @@
                     </div>
                 </div>
             </div>
+        </section>
+
+        <!-- INFO SECTION-->
+        <!-- TO BE IMPLEMENTED 
+             Not sure if this is needed-->
+        <section>
+            <div class="container">
+                <div class="row center-xs center-sm center-md center-lg middle-xs middle-sm middle-md middle-lg">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <img src="" alt="">
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPANY -->
+        <section id="company">
+            <div class="container">
+                <div class="row left-xs left-sm left-md left-lg">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <h4></h4>
+                    </div>
+                </div>
+            </div>
+        </section>
     </body>
 </html>
