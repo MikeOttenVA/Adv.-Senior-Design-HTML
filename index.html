@@ -4,6 +4,8 @@
     Amirali Jahdi, Ben Weaver, David Rowe, Gorgi Kirovski, Patrick Wilkins
 
     Template Idea from: https://www.youtube.com/watch?v=qlA7dputiNc
+    Using Node.js with help from: https://www.youtube.com/watch?v=2V1UUhBJ62Y
+
     Uses Flexbox grid and AwesomeFont for easier stylization: http://flexboxgrid.com/
     Code languages used: CSS, HTML, and JavaScript
 
@@ -38,27 +40,34 @@
     </head>
 
     <!--Anything important to human interaction--
-    !--Content of site (text, images, links, videos, etc.)-->
+     !--Content of site (text, images, links, videos, etc.)-->
     <body>
+        <!-- JavaScript -->
+        <script>
+            function autoRefresh() {
+                window.location = window.location.href
+            }
+            //setInterval('autoRefresh()', 10000); // Every 10 seconds, reload the page
+        </script>
+
         <!-- HEADER -->
         <header id="main-header">
             <div class="container">
                 <div class="header1">
                     <div class="row center-xs center-sm center-md center-lg middle-xs middle-sm middle-md middle-lg">
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2">
+                        <div class="col-xs-12 col-sm-3 col-md-4 col-lg-3">
                             <img src="images/GMU_PLogo_4CP.png" alt="George Mason University" style="width:175px;height:110px">
                         </div>
-                        <div class="col-xs-12 col-sm-4 col-md-2 col-lg-3">
+                        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
                             <div class="flex1">
                                 <h1><span class="primary-text">Data Center Demo</span></h1>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-3 col-md-7 col-lg-7">
+                        <div class="col-xs-12 col-sm-3 col-md-5 col-lg-6">
                             <nav id="navbar">
                                 <ul>
-                                    <li><a href="index.html">Home</a></li> 
                                     <!-- Probably won't need these extra links-->
-                                    <li><a href="index.html">Place Holder</a></li> 
+                                    <li><a href="innerpage.html">Server Map</a></li> 
                                     <li><a href="index.html">Place Holder</a></li> 
                                     <li><a href="index.html">Place Holder</a></li> 
                                 </ul>
@@ -91,6 +100,12 @@
                         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                             <i class="fa-solid fa-server"></i><br>
                             <h4>Rack 1</h4>
+                            
+                            <!--Button that get's time-->
+                            <button type="button" onclick="document.getElementById('time').innerHTML = Date()">Current Time</button>
+                            <!--Display what's in demo-->
+                            <p id="time"></p>
+                            
                             <ol>
                                 <li>Lorem ipsum dolor.</li>
                                 <li>Lorem ipsum dolor.</li>
