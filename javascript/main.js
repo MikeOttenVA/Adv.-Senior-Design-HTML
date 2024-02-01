@@ -37,3 +37,7 @@ port.on("open", () => {
 // Read the data from the serial port
 parser.on('data', data =>{    console.log('got word from arduino:', data);});
 
+function update_data() {
+  testData = data;
+  document.getElementById('testData').innerHTML = testData;
+}
