@@ -233,7 +233,7 @@ Baud:
     
 </div>
 <script>
-    var port, textEncoder, writableStreamClosed, writer;
+    var port, textEncoder, writableStreamClosed, writer, buffer;
     async function connectSerial() {
         try {
             // Prompt user to select any serial port.
@@ -262,14 +262,69 @@ Baud:
                 break;
             }
             // value is a string.
-            appendToTerminal(value);
-            // formated_value = value.substr(6)
+            buffer += value;
+            buffer.trim();
+            while(buffer.indexOf("p") == -1){
+                const { value, done } = await reader.read();
+                if (done) {
+                    // Allow the serial port to be closed later.
+                    reader.releaseLock();
+                    break;
+                }
+                buffer += value;
+                buffer.trim();
+            }
+            // appendToTerminal(buffer + " ");
+            new_value = new String(buffer);
+            buffer = " ";
+            new_value.trim();
+            // appendToTerminal(new_value + " ");
 
+            new_value_length = new_value.length;
+            underscoreIndex = new_value.indexOf('x');
+
+            row = new_value.substring(underscoreIndex-1,underscoreIndex);
+            new_value1 = new_value.substring(underscoreIndex+1);
+            underscoreIndex = new_value1.indexOf("x");
+            // appendToTerminal(row);
+
+            rack = new_value1.substring(underscoreIndex-1,underscoreIndex);
+            value_new2 = new_value1.substring(underscoreIndex+1);
+            underscoreIndex = value_new2.indexOf("x");
+            // appendToTerminal(rack);
+
+            server = value_new2.substring(underscoreIndex-1,underscoreIndex);
+            // appendToTerminal(server);
+            check_char = value_new2.indexOf("p");
+            thd_value = value_new2.substring(underscoreIndex+1,check_char);
+            
             // Get the display element
-            // var displayElement = document.getElementById('serialResults'); //displayNumber1
+            if(server == "1"){
+                var displayElement = document.getElementById('displayNumber1'); //displayNumber1
+                displayElement.innerHTML = thd_value;
 
-            // // Display the random number
-            // displayElement.innerHTML = value;
+                // Apply color based on the number
+                if (thd_value <= 5) {
+                    displayElement.style.color = 'green';
+                } else if (thd_value > 5 && thd_value <= 12) {
+                    displayElement.style.color = 'orange';
+                } else {
+                    displayElement.style.color = 'red';
+                }
+            } else if (server == "2"){
+                var displayElement = document.getElementById('displayNumber2'); //displayNumber1
+                displayElement.innerHTML = thd_value;
+
+                // Apply color based on the number
+                if (thd_value <= 5) {
+                    displayElement.style.color = 'green';
+                } else if (thd_value > 5 && thd_value <= 12) {
+                    displayElement.style.color = 'orange';
+                } else {
+                    displayElement.style.color = 'red';
+                }
+            }
+            // Display the random number
 
         }
     }
