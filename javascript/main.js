@@ -19,8 +19,8 @@ const readLine = require('readline');
 
 // Define the serial port
 const port = new SerialPort({
-    path:"COM9",
-    baudRate:9600,
+    path:"COM3",
+    baudRate:115200,
     parser: readLine
   });
 
@@ -35,7 +35,7 @@ port.on("open", () => {
   });
 
 // Read the data from the serial port
-parser.on('data', data =>{    console.log('got word from arduino:', data);});
+parser.on('data', data =>{    console.log('', data);});
 
 function update_data() {
   testData = data;

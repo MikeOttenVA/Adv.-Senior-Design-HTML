@@ -1,0 +1,635 @@
+<!--Created By: Michael Ottenberg and Gorgi Kirovski
+    George Mason University Advanced Senior Design Project
+    Collaborators: Dr. Liling Huang, Dr. Jens Peter Kaps
+    Amirali Jahdi, Ben Weaver, David Rowe, Gorgi Kirovski, Patrick Wilkins
+
+    Template Idea from: https://www.youtube.com/watch?v=qlA7dputiNc
+    Using Node.js with help from: https://www.youtube.com/watch?v=2V1UUhBJ62Y
+
+    Uses Flexbox grid and AwesomeFont for easier stylization: http://flexboxgrid.com/
+    Code languages used: CSS, HTML, and JavaScript
+
+    ToDo List:
+    - Implement scripting language, needs to handle
+        - Changing of color of individual server pieces (red, orange, yellow, green)
+        - Updating THD % on servers
+    - Improve design of how servers will look, i.e.,
+        - How many servers are in each rack?
+        - How to handle 1u, 2u, 3u servers
+        - Can the user customize this?
+            - For now no, I want it preprogrammed
+            - In future might implement plug-and-play where this info is filled out via MCU
+-->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<script>
+function DisplayTHDData1() {
+    let sum = 0; // Initialize sum to calculate total
+    for (let i = 1; i <= 10; i++) {
+        // Generate a random number between 0 and 10
+        var randomNumber = Math.floor(Math.random() * 11); // 0 to 10
+        sum += randomNumber; // Add each randomNumber to sum
+
+        // Get the display element
+        var displayElement = document.getElementById('displayNumber' + i);
+
+        // Display the random number
+        displayElement.innerHTML = randomNumber;
+
+        // Apply color based on the number
+        if (randomNumber <= 5) {
+            displayElement.style.color = 'green';
+        } else if (randomNumber > 5 && randomNumber <= 12) {
+            displayElement.style.color = 'orange';
+        } else {
+            displayElement.style.color = 'red';
+        }
+    }
+
+    // Calculate the average
+    let average = sum / 10;
+
+    // Display the average
+    var averageElement = document.getElementById('averageDisplay');
+    averageElement.innerHTML = `${average.toFixed(2)}%`; // Display the average to 2 decimal places
+
+    var statusElement = document.getElementById('statusMessage'); // Ensure you have an element with this ID in your HTML
+
+    // Change the text and color of the status element based on the average
+    if (average <= 5) {
+        averageElement.style.color = 'green';
+        statusElement.innerHTML = "Okay"; // Assuming 'Moderate THD Levels' is for average < 10
+        statusElement.style.color = 'green';
+    } else if (average > 5 && average <= 12) {
+        averageElement.style.color = 'orange';
+        statusElement.innerHTML = "Warning";
+        statusElement.style.color = 'orange';
+    } else {
+        averageElement.style.color = 'red';
+        statusElement.innerHTML = "Critical";
+        statusElement.style.color = 'red';
+    }
+}
+
+</script>
+
+
+
+<script>
+  function DisplayTHDData2() {
+    let sum = 0;
+      for (let i = 11; i <= 20; i++) {
+          // Generate a random number between 0 and 20
+          var randomNumber = Math.floor(Math.random() * 21); // 0 to 20
+          sum += randomNumber; // Add each randomNumber to sum
+
+          // Get the display element
+          var displayElement = document.getElementById('displayNumber' + i);
+
+          // Display the random number
+          displayElement.innerHTML = randomNumber;
+
+          // Apply color based on the number
+          if (randomNumber <= 5) {
+              displayElement.style.color = 'green';
+          } else if (randomNumber > 5 && randomNumber <= 12) {
+              displayElement.style.color = 'orange';
+          } else {
+              displayElement.style.color = 'red';
+          }
+      }
+
+
+    // Calculate the average
+    let average = sum / 10;
+
+    // Display the average
+    var averageElement = document.getElementById('averageDisplay2');
+    averageElement.innerHTML = `${average.toFixed(2)}%`; // Display the average to 2 decimal places
+
+    var statusElement = document.getElementById('statusMessage2'); // Ensure you have an element with this ID in your HTML
+
+    // Change the text and color of the status element based on the average
+    if (average <= 5) {
+        averageElement.style.color = 'green';
+        statusElement.innerHTML = "Okay"; // Assuming 'Low THD Levels' is for average < 10
+        statusElement.style.color = 'green';
+    } else if (average > 5 && average <= 12) {
+        averageElement.style.color = 'orange';
+        statusElement.innerHTML = "Warning";
+        statusElement.style.color = 'orange';
+    } else {
+        averageElement.style.color = 'red';
+        statusElement.innerHTML = "Critical";
+        statusElement.style.color = 'red';
+    }      
+
+      
+  }
+</script>
+
+
+<script>
+  function DisplayTHDData3() {
+    let sum = 0;
+      for (let i = 21; i <= 30; i++) {
+          // Generate a random number between 0 and 150
+          var randomNumber = Math.floor(Math.random() * 151); // 0 to 150
+          sum += randomNumber; // Add each randomNumber to sum
+
+          // Get the display element
+          var displayElement = document.getElementById('displayNumber' + i);
+
+          // Display the random number
+          displayElement.innerHTML = randomNumber;
+
+          // Apply color based on the number
+          if (randomNumber <= 5) {
+              displayElement.style.color = 'green';
+          } else if (randomNumber > 5 && randomNumber <= 12) {
+              displayElement.style.color = 'orange';
+          } else {
+              displayElement.style.color = 'red';
+          }
+      }
+
+    // Calculate the average
+    let average = sum / 10;
+
+    // Display the average
+    var averageElement = document.getElementById('averageDisplay3');
+    averageElement.innerHTML = `${average.toFixed(2)}%`; // Display the average to 2 decimal places
+
+    var statusElement = document.getElementById('statusMessage3'); // Ensure you have an element with this ID in your HTML
+
+    // Change the text and color of the status element based on the average
+    if (average <= 5) {
+        averageElement.style.color = 'green';
+        statusElement.innerHTML = "Okay"; // Assuming 'Low THD Levels' is for average < 10
+        statusElement.style.color = 'green';
+    } else if (average > 5 && average <= 12) {
+        averageElement.style.color = 'orange';
+        statusElement.innerHTML = "Warning";
+        statusElement.style.color = 'orange';
+    } else {
+        averageElement.style.color = 'red';
+        statusElement.innerHTML = "Critical";
+        statusElement.style.color = 'red';
+    }  
+
+  }
+</script>
+
+
+
+<!-- SCRIPT FOR READING THD DATA FOR MICROCONTROLLER-->
+
+<script>
+    var port, textEncoder, writableStreamClosed, writer, historyIndex = -1;
+    const lineHistory = [];
+    async function connectSerial() {
+        try {
+            // Prompt user to select any serial port.
+            port = await navigator.serial.requestPort();
+            await port.open({ baudRate: document.getElementById("baud").value });
+            let settings = {};
+
+            if (localStorage.dtrOn == "true") settings.dataTerminalReady = true;
+            if (localStorage.rtsOn == "true") settings.requestToSend = true;
+            if (Object.keys(settings).length > 0) await port.setSignals(settings);
+  
+            
+            textEncoder = new TextEncoderStream();
+            writableStreamClosed = textEncoder.readable.pipeTo(port.writable);
+            writer = textEncoder.writable.getWriter();
+            await listenToPort();
+        } catch (e){
+            alert("Serial Connection Failed" + e);
+        }
+    }
+    async function sendCharacterNumber() {
+        document.getElementById("lineToSend").value = String.fromCharCode(document.getElementById("lineToSend").value);
+    }
+    async function sendSerialLine() {
+        dataToSend = document.getElementById("lineToSend").value;
+        lineHistory.unshift(dataToSend);
+        historyIndex = -1; // No history entry selected
+        if (document.getElementById("carriageReturn").checked == true) dataToSend = dataToSend + "\r";
+        if (document.getElementById("addLine").checked == true) dataToSend = dataToSend + "\n";
+        if (document.getElementById("echoOn").checked == true) appendToTerminal("> " + dataToSend);
+        await writer.write(dataToSend);
+        if (dataToSend.trim().startsWith('\x03')) echo(false);
+        document.getElementById("lineToSend").value = "";
+        document.getElementById("lineToSend").value = "";
+    }
+    async function listenToPort() {
+        const textDecoder = new TextDecoderStream();
+        const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
+        const reader = textDecoder.readable.getReader();
+
+        // Listen to data coming from the serial device.
+        while (true) {
+            const { value, done } = await reader.read();
+            if (done) {
+                // Allow the serial port to be closed later.
+                console.log('[readLoop] DONE', done);
+                reader.releaseLock();
+                break;
+            }
+            // value is a string.
+            appendToTerminal(value);
+        }
+    }
+    const serialResultsDiv = document.getElementById("serialResults");
+    async function appendToTerminal(newStuff) {
+        serialResultsDiv.innerHTML += newStuff;
+        if (serialResultsDiv.innerHTML.length > 3000) serialResultsDiv.innerHTML = serialResultsDiv.innerHTML.slice(serialResultsDiv.innerHTML.length - 3000);
+
+        //scroll down to bottom of div
+        serialResultsDiv.scrollTop = serialResultsDiv.scrollHeight;
+    }
+    function scrollHistory(direction) {
+        // Clamp the value between -1 and history length
+        historyIndex = Math.max(Math.min(historyIndex + direction, lineHistory.length - 1), -1);
+        if (historyIndex >= 0) {
+            document.getElementById("lineToSend").value = lineHistory[historyIndex];
+        } else {
+            document.getElementById("lineToSend").value = "";
+        }
+    }
+    document.getElementById("lineToSend").addEventListener("keyup", async function (event) {
+        if (event.keyCode === 13) {
+            sendSerialLine();
+        } else if (event.keyCode === 38) { // Key up
+            scrollHistory(1);
+        } else if (event.keyCode === 40) { // Key down
+            scrollHistory(-1);
+        }
+    })
+    document.getElementById("baud").value = (localStorage.baud == undefined ? 9600 : localStorage.baud);
+    document.getElementById("addLine").checked = (localStorage.addLine == "false" ? false : true);
+    document.getElementById("carriageReturn").checked = (localStorage.carriageReturn == "false" ? false : true);
+    document.getElementById("echoOn").checked = (localStorage.echoOn == "false" ? false : true);
+</script>
+
+
+
+
+
+
+<!--Not important to humans like linking to CSS or Javascript--
+    !--Only exception is the title tag-->
+    <head> 
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Data Center Demo</title>
+        <!-- Links outside references like flexbox -->
+        <link rel="stylesheet" href="css/flexboxgrid.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/font-awesome.css">
+        <script src="https://kit.fontawesome.com/9dcebbc14a.js" crossorigin="anonymous"></script>
+        <script src="javascript/main.js"></script>
+    </head>
+
+    <!--Anything important to human interaction--
+     !--Content of site (text, images, links, videos, etc.)-->
+    <body>
+        <!-- JavaScript -->
+        <script>
+            function autoRefresh() {
+                window.location = window.location.href
+            }
+            //setInterval('autoRefresh()', 10000); // Every 10 seconds, reload the page
+        </script>
+
+        <!-- HEADER -->
+        <header id="main-header">
+            <div class="container">
+                <div class="header1">
+                    <div class="row center-xs center-sm center-md center-lg middle-xs middle-sm middle-md middle-lg">
+                        <div class="col-xs-12 col-sm-3 col-md-4 col-lg-3">
+                            <img src="images/GMU_PLogo_4CP.png" alt="George Mason University" style="width:175px;height:110px">
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+                            <div class="flex1">
+                                <h1><span class="primary-text">Data Center Demo</span></h1>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 col-md-5 col-lg-6">
+                            <nav id="navbar">
+                                <ul>
+                                    <!-- Probably won't need these extra links-->
+                                    <li><a href="innerpage.html">Home</a></li> 
+                                    <li><a href="Server Map.html">Server Map</a></li> 
+                                    <li><a href="Graph.html">THD Graph Data</a></li> 
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- SHOWCASE -->
+        <section id="showcase">
+            <div class="container">
+                <div class="row center-xs center-sm center-md center-lg middle-xs middle-sm middle-md middle-lg">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <h1> Welcome to <span class="primary-text">Data Center Servers</span></h1>
+                        <p>This page shows the THD values for each rack on this server row.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <!-- Server Rows-->
+        <section id="servers">
+            <div class="row center-xs center-sm center-md center-lg middle-xs middle-sm middle-md middle-lg">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <nav id="navbar">
+                        <h2><span class="primary-text">Data Center Servers</span></h2>
+                        <li><a href="Server Row 1.html">Server Row 1</a></li> 
+                        <li><a href="Server Row 1.html">Server Row 2</a></li>
+                        <li><a href="Server Row 1.html">Server Row 3</a></li>
+                        <li><a href="Server Row 1.html">Server Row 4</a></li>
+                        <li><a href="Server Row 1.html">Server Row 5</a></li>
+
+
+                            <!-- THD Data Legend-->
+                            <div class="container" style="display: flex; justify-content: center;">
+                                <div class="row" style="display: flex; justify-content: space-around; max-width: 1200px; width: 100%;">
+                                    <div class="col" style="flex: 1; max-width: 30%;">
+                                        <table style="width:100%">
+                                            <br>
+                                            <tr>
+                                                <td><h4 style="color: black">THD Data Legend</h4></td>
+                                            </tr>
+                                        </table>
+                                        <table style="width:100%">
+                                            <tr><td><span style="color: green;">Okay</span>: <= 5%</td></tr>
+                                            <tr><td><span style="color: orange;">Warning</span>: 5% - 12%</td></tr>
+                                            <tr><td><span style="color: red;">Critical</span>: > 12%</td></tr>
+                                                                                
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            
+
+                        <!-- Current Server Row racks being displayed below -->
+                        <h2><span class="primary-text">Server Row 1</span></h2>
+                      </nav>
+
+
+                    <br>
+
+                      <div class="container" style="display: flex; justify-content: center;">
+                        <div class="row" style="display: flex; justify-content: space-around; max-width: 1200px; width: 100%;">
+
+                            <!-- First Server Rack -->
+                            <div class="col" style="flex: 1; max-width: 30%;">
+                                <input type="button" onclick="DisplayTHDData1()" value="Display Server 1 THD Data">
+                                <br><br>
+                                <table style="width:100%">
+                                    <tr>
+                                        <td><h4>Server Rack 1 <br> <span id="statusMessage"></span></td>
+                                    </tr>
+                                </table>
+                                <table style="width:100%">
+                                    <tr><td>Server 1 THD Data: <span id="displayNumber1"></span>%</td></tr>
+                                    <tr><td>Server 2 THD Data: <span id="displayNumber2"></span>%</td></tr>
+                                    <tr><td>Server 3 THD Data: <span id="displayNumber3"></span>%</td></tr>
+                                    <tr><td>Server 4 THD Data: <span id="displayNumber4"></span>%</td></tr>
+                                    <tr><td>Server 5 THD Data: <span id="displayNumber5"></span>%</td></tr>
+                                    <tr><td>Server 6 THD Data: <span id="displayNumber6"></span>%</td></tr>
+                                    <tr><td>Server 7 THD Data: <span id="displayNumber7"></span>%</td></tr>
+                                    <tr><td>Server 8 THD Data: <span id="displayNumber8"></span>%</td></tr>
+                                    <tr><td>Server 9 THD Data: <span id="displayNumber9"></span>%</td></tr>
+                                    <tr><td>Server 10 THD Data: <span id="displayNumber10"></span>%</td></tr>        
+                                    <tr><td>Average Server Rack THD: <span id="averageDisplay"></span>%</td></tr>                                                                                                    
+                                </table>
+                            </div>
+                    
+                            <!-- Second Server Rack -->
+                            <div class="col" style="flex: 1; max-width: 30%;">
+                                <input type="button" onclick="DisplayTHDData2()" value="Display Server 2 THD Data">
+                                <br><br>
+                                <table style="width:100%">
+                                    <tr>
+                                        <td><h4>Server Rack 2 <br> <span id="statusMessage2"></span> </h4></td>
+                                    </tr>
+                                </table>
+                                <table style="width:100%">
+                                  <tr><td>Server 1 THD Data: <span id="displayNumber11"></span>%</td></tr>
+                                  <tr><td>Server 2 THD Data: <span id="displayNumber12"></span>%</td></tr>
+                                  <tr><td>Server 3 THD Data: <span id="displayNumber13"></span>%</td></tr>
+                                  <tr><td>Server 4 THD Data: <span id="displayNumber14"></span>%</td></tr>
+                                  <tr><td>Server 5 THD Data: <span id="displayNumber15"></span>%</td></tr>
+                                  <tr><td>Server 6 THD Data: <span id="displayNumber16"></span>%</td></tr>
+                                  <tr><td>Server 7 THD Data: <span id="displayNumber17"></span>%</td></tr>
+                                  <tr><td>Server 8 THD Data: <span id="displayNumber18"></span>%</td></tr>
+                                  <tr><td>Server 9 THD Data: <span id="displayNumber19"></span>%</td></tr>
+                                  <tr><td>Server 10 THD Data: <span id="displayNumber20"></span>%</td></tr> 
+                                  <tr><td>Average Server Rack THD: <span id="averageDisplay2"></span>%</td></tr>
+                                </table>
+                            </div>
+                    
+                            <!-- Third Server Rack -->
+                            <div class="col" style="flex: 1; max-width: 30%;">
+                                <input type="button" onclick="DisplayTHDData3()" value="Display Server 3 THD Data">
+                                <br><br>
+                                <table style="width:100%">
+                                    <tr>
+                                        <td><h4>Server Rack 3 <br> <span id="statusMessage3"></span> </h4></td>
+                                    </tr>
+                                </table>
+                                <table style="width:100%">
+                                  <tr><td>Server 1 THD Data: <span id="displayNumber21"></span>%</td></tr>
+                                  <tr><td>Server 2 THD Data: <span id="displayNumber22"></span>%</td></tr>
+                                  <tr><td>Server 3 THD Data: <span id="displayNumber23"></span>%</td></tr>
+                                  <tr><td>Server 4 THD Data: <span id="displayNumber24"></span>%</td></tr>
+                                  <tr><td>Server 5 THD Data: <span id="displayNumber25"></span>%</td></tr>
+                                  <tr><td>Server 6 THD Data: <span id="displayNumber26"></span>%</td></tr>
+                                  <tr><td>Server 7 THD Data: <span id="displayNumber27"></span>%</td></tr>
+                                  <tr><td>Server 8 THD Data: <span id="displayNumber28"></span>%</td></tr>
+                                  <tr><td>Server 9 THD Data: <span id="displayNumber29"></span>%</td></tr>
+                                  <tr><td>Server 10 THD Data: <span id="displayNumber30"></span>%</td></tr> 
+                                  <tr><td>Average Server Rack THD: <span id="averageDisplay3"></span>%</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+
+
+                    <div class="container" style="display: flex; justify-content: center;">
+                      <div class="row" style="display: flex; justify-content: space-around; max-width: 1200px; width: 100%;">
+
+                          <!-- 4th Server Rack -->
+                          <div class="col" style="flex: 1; max-width: 30%;">
+                              <input type="button" onclick="DisplayTHDData()" value="Display Server 4 THD Data">
+                              <br><br>
+                              <table style="width:100%">
+                                  <tr>
+                                      <td><h4>Server Rack 4</h4></td>
+                                  </tr>
+                              </table>
+                              <table style="width:100%">
+                                  <tr><td>Server 1 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                  <tr><td>Server 2 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                  <tr><td>Server 3 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                  <tr><td>Server 4 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                  <tr><td>Server 5 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                  <tr><td>Server 6 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                  <tr><td>Server 7 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                  <tr><td>Server 8 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                  <tr><td>Server 9 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                  <tr><td>Server 10 THD Data: <span id="displayNumber"></span>%</td></tr>                                                                                                            
+                              </table>
+                          </div>
+                  
+                          <!-- 5th Server Rack -->
+                          <div class="col" style="flex: 1; max-width: 30%;">
+                              <input type="button" onclick="DisplayTHDData()" value="Display Server 5 THD Data">
+                              <br><br>
+                              <table style="width:100%">
+                                  <tr>
+                                      <td><h4>Server Rack 5</h4></td>
+                                  </tr>
+                              </table>
+                              <table style="width:100%">
+                                <tr><td>Server 1 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 2 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 3 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 4 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 5 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 6 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 7 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 8 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 9 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 10 THD Data: <span id="displayNumber"></span>%</td></tr> 
+                              </table>
+                          </div>
+                  
+                          <!-- 6th Server Rack -->
+                          <div class="col" style="flex: 1; max-width: 30%;">
+                              <input type="button" onclick="DisplayTHDData()" value="Display Server 6 THD Data">
+                              <br><br>
+                              <table style="width:100%">
+                                  <tr>
+                                      <td><h4>Server Rack 6</h4></td>
+                                  </tr>
+                              </table>
+                              <table style="width:100%">
+                                <tr><td>Server 1 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 2 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 3 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 4 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 5 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 6 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 7 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 8 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 9 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 10 THD Data: <span id="displayNumber"></span>%</td></tr> 
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+                    
+
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+
+
+                  <div class="container" style="display: flex; justify-content: center;">
+                    <div class="row" style="display: flex; justify-content: space-around; max-width: 1200px; width: 100%;">
+
+                        <!-- 7th Server Rack -->
+                        <div class="col" style="flex: 1; max-width: 30%;">
+                            <input type="button" onclick="DisplayTHDData()" value="Display Server 7 THD Data">
+                            <br><br>
+                            <table style="width:100%">
+                                <tr>
+                                    <td><h4>Server Rack 7</h4></td>
+                                </tr>
+                            </table>
+                            <table style="width:100%">
+                                <tr><td>Server 1 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 2 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 3 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 4 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 5 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 6 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 7 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 8 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 9 THD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 10 THD Data: <span id="displayNumber"></span>%</td></tr>                                                                                                            
+                            </table>
+                        </div>
+                
+                        <!-- 8th Server Rack -->
+                        <div class="col" style="flex: 1; max-width: 30%;">
+                            <input type="button" onclick="DisplayTHDData()" value="Display Server 8 THD Data">
+                            <br><br>
+                            <table style="width:100%">
+                                <tr>
+                                    <td><h4>Server Rack 8</h4></td>
+                                </tr>
+                            </table>
+                            <table style="width:100%">
+                              <tr><td>Server 1 THD Data: <span id="displayNumber"></span>%</td></tr>
+                              <tr><td>Server 2 THD Data: <span id="displayNumber"></span>%</td></tr>
+                              <tr><td>Server 3 THD Data: <span id="displayNumber"></span>%</td></tr>
+                              <tr><td>Server 4 THD Data: <span id="displayNumber"></span>%</td></tr>
+                              <tr><td>Server 5 THD Data: <span id="displayNumber"></span>%</td></tr>
+                              <tr><td>Server 6 THD Data: <span id="displayNumber"></span>%</td></tr>
+                              <tr><td>Server 7 THD Data: <span id="displayNumber"></span>%</td></tr>
+                              <tr><td>Server 8 THD Data: <span id="displayNumber"></span>%</td></tr>
+                              <tr><td>Server 9 THD Data: <span id="displayNumber"></span>%</td></tr>
+                              <tr><td>Server 10 THD Data: <span id="displayNumber"></span>%</td></tr> 
+                            </table>
+                        </div>
+                
+                        <!-- 9th Server Rack -->
+                        <div class="col" style="flex: 1; max-width: 30%;">
+                            <input type="button" onclick="DisplayTHDData()" value="Display Server 9 THD Data">
+                            <br><br>
+                            <table style="width:100%">
+                                <tr>
+                                    <td><h4>Server Rack 9</h4></td>
+                                </tr>
+                            </table>
+                            <table style="width:100%">
+                              <tr><td>Server 1 THD Data: <span id="displayNumber21"></span>%</td></tr>
+                              <tr><td>Server 2 THD Data: <span id="displayNumber22"></span>%</td></tr>
+                              <tr><td>Server 3 THD Data: <span id="displayNumber23"></span>%</td></tr>
+                              <tr><td>Server 4 THD Data: <span id="displayNumber24"></span>%</td></tr>
+                              <tr><td>Server 5 THD Data: <span id="displayNumber25"></span>%</td></tr>
+                              <tr><td>Server 6 THD Data: <span id="displayNumber26"></span>%</td></tr>
+                              <tr><td>Server 7 THD Data: <span id="displayNumber27"></span>%</td></tr>
+                              <tr><td>Server 8 THD Data: <span id="displayNumber28"></span>%</td></tr>
+                              <tr><td>Server 9 THD Data: <span id="displayNumber29"></span>%</td></tr>
+                              <tr><td>Server 10 THD Data: <span id="displayNumber30"></span>%</td></tr> 
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+                <br>
+                <br>
+                <br>
+                <br>

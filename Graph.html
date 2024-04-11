@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Center Demo</title>
+    <link rel="stylesheet" href="css/flexboxgrid.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/font-awesome.css">
+    <script src="https://kit.fontawesome.com/9dcebbc14a.js" crossorigin="anonymous"></script>
+    <style>
+        #chart-container {
+            margin: auto;
+            width: 50%;
+            height: auto;
+        }
+        canvas {
+            width: 100% !important;
+            height: auto !important;
+        }
+    </style>
+</head>
+<body>
+    <header id="main-header">
+        <div class="container">
+            <div class="row center-xs center-sm center-md center-lg middle-xs middle-sm middle-md middle-lg">
+                <div class="col-xs-12 col-sm-3 col-md-4 col-lg-3">
+                    <img src="images/GMU_PLogo_4CP.png" alt="George Mason University" style="width:175px;height:110px">
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+                    <h1><span class="primary-text">Data Center Demo</span></h1>
+                </div>
+                <div class="col-xs-12 col-sm-3 col-md-5 col-lg-6">
+                    <nav id="navbar">
+                        <ul>
+                            <li><a href="innerpage.html">Home</a></li>
+                            <li><a href="Server Map.html">Server Map</a></li>
+                            <li><a href="Graph.html">THD Graph Data</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="showcase">
+        <div class="container">
+            <div class="row center-xs center-sm center-md center-lg middle-xs middle-sm middle-md middle-lg">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <h1>Welcome to <span class="primary-text">Data Center THD (Total Harmonic Distortion) Graph Data</span></h1>
+                    <p>This page shows the history of the Data Center THD (Total Harmonic Distortion) data</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="servers">
+        <div class="row center-xs center-sm center-md center-lg middle-xs middle-sm middle-md middle-lg">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h2 style="text-align: center;"><span class="primary-text">Data Center THD Data</span></h2>
+                <div id="chart-container">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- THD Graph -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // X-Axis
+        var data = {
+            labels: ["60", "55", "50", "45", "40", "35", "30", "25", "20", "15", "10", "5", "0"],
+            datasets: [
+                // First Rack
+                {
+                    label: "Server Rack 1",
+                    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    fill: false,
+                    borderColor: "rgb(0, 0, 0)",
+                    lineTension: 0.25
+                },
+                // Second Rack
+                {
+                    label: "Server Rack 2",
+                    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    fill: false,
+                    borderColor: "rgb(0, 0, 255)",
+                    lineTension: 0.25
+                },
+                // Third Rack
+                {
+                    label: "Server Rack 3",
+                    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    fill: false,
+                    borderColor: "rgb(255, 0, 0)",
+                    lineTension: 0.25
+                }
+            ]
+        };
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'THD Value (%)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Time (seconds)'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Data Center THD Data History'
+                    }
+                }
+            }
+        });
+
+        // Add new data, and remove old data by shifting numbers
+        function updateChart() {
+            const newData1 = Math.floor(Math.random() * 100);
+            const newData2 = Math.floor(Math.random() * 100);
+            const newData3 = Math.floor(Math.random() * 100);
+            myChart.data.datasets[0].data.shift();
+            myChart.data.datasets[0].data.push(newData1);
+            myChart.data.datasets[1].data.shift();
+            myChart.data.datasets[1].data.push(newData2);
+            myChart.data.datasets[2].data.shift();
+            myChart.data.datasets[2].data.push(newData3);
+            myChart.update();
+        }
+
+        // Add new data every 5 seconds
+        setInterval(updateChart, 5000);
+    </script>
+</body>
+</html>
+
+
+<br>
+<br>
+<br>
+<br>
