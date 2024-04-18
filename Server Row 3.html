@@ -274,12 +274,10 @@ function DisplayTHDData1() {
             </div>
         </section>
 
-        <br>
-
 
         <section id="servers">
             <div class="container">
-                <h2 style="text-align: center;"><span class="primary-text">Server Row 2 THD Data</span></h2>
+                <h2 style="text-align: center;"><span class="primary-text">Server Row 3 THD Data</span></h2>
                 <div class="row center-xs center-sm center-md center-lg middle-xs middle-sm middle-md middle-lg" style="display: flex; justify-content: center;">
                     <!-- Chart Container -->
                     <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" id="chart-container">
@@ -363,19 +361,19 @@ function DisplayTHDData1() {
                 }
             });
     
-            // Add new data, and remove old data by shifting numbers
-            function updateChart() {
-                const newData1 = (Math.floor(Math.random() * 10) + 5);
-                const newData2 = (Math.floor(Math.random() * 20) + 10);
-                const newData3 = (Math.floor(Math.random() * 100) + 10);
-                myChart.data.datasets[0].data.shift();
-                myChart.data.datasets[0].data.push(newData1);
-                myChart.data.datasets[1].data.shift();
-                myChart.data.datasets[1].data.push(newData2);
-                myChart.data.datasets[2].data.shift();
-                myChart.data.datasets[2].data.push(newData3);
-                myChart.update();
-            }
+            // // Add new data, and remove old data by shifting numbers
+            // function updateChart() {
+            //     const newData1 = Math.floor(Math.random() * 100);
+            //     const newData2 = Math.floor(Math.random() * 100);
+            //     const newData3 = Math.floor(Math.random() * 100) ;
+            //     myChart.data.datasets[0].data.shift();
+            //     myChart.data.datasets[0].data.push(newData1);
+            //     myChart.data.datasets[1].data.shift();
+            //     myChart.data.datasets[1].data.push(newData2);
+            //     myChart.data.datasets[2].data.shift();
+            //     myChart.data.datasets[2].data.push(newData3);
+            //     myChart.update();
+            //}
     
             // Add new data every 5 seconds
             setInterval(updateChart, 5000);
@@ -399,18 +397,16 @@ function DisplayTHDData1() {
                         <li><a href="Server Row 1.html">Server Row 5</a></li> -->
 
                         <!-- Current Server Row racks being displayed below -->
-                        <h2><span class="primary-text">Server Row 2</span></h2>
+                        <h2><span class="primary-text">Server Row 3</span></h2>
                       </nav>
-
-                    <br>
 
                       <div class="container" style="display: flex; justify-content: center;">
                         <div class="row" style="display: flex; justify-content: space-around; max-width: 1200px; width: 100%;">
 
                             <!-- First Server Rack -->
                             <div class="col" style="flex: 1; max-width: 30%;">
-                                <input type="button" onclick="DisplayTHDData1()" value="Display Server A THD Data">
-                                <br><br>
+                                <!-- <input type="button" onclick="DisplayTHDData1()" value="Display Server A THD Data"> -->
+                                <br>
                                 <table style="width:100%">
                                     <tr>
                                         <td><h4>Server Rack A <br> <span id="statusMessage"></span></td>
@@ -435,8 +431,8 @@ function DisplayTHDData1() {
                     
                             <!-- Second Server Rack -->
                             <div class="col" style="flex: 1; max-width: 30%;">
-                                <input type="button" onclick="DisplayTHDData2()" value="Display Server B THD Data">
-                                <br><br>
+                                <!-- <input type="button" onclick="DisplayTHDData2()" value="Display Server B THD Data"> -->
+                                <br>
                                 <table style="width:100%">
                                     <tr>
                                         <td><h4>Server Rack B <br> <span id="statusMessage2"></span> </h4></td>
@@ -461,8 +457,8 @@ function DisplayTHDData1() {
                     
                             <!-- Third Server Rack -->
                             <div class="col" style="flex: 1; max-width: 30%;">
-                                <input type="button" onclick="DisplayTHDData3()" value="Display Server C THD Data">
-                                <br><br>
+                                <!-- <input type="button" onclick="DisplayTHDData3()" value="Display Server C THD Data"> -->
+                                <br>
                                 <table style="width:100%">
                                     <tr>
                                         <td><h4>Server Rack C <br> <span id="statusMessage3"></span> </h4></td>
@@ -490,182 +486,4 @@ function DisplayTHDData1() {
 
                     <br>
                     <br>
-                    <br>
-                    <br>
 
-
-                    <div class="container" style="display: flex; justify-content: center;">
-                      <div class="row" style="display: flex; justify-content: space-around; max-width: 1200px; width: 100%;">
-
-                          <!-- 4th Server Rack -->
-                          <div class="col" style="flex: 1; max-width: 30%;">
-                              <!-- <input type="button" onclick="DisplayTHDData()" value="Display Server 4 THD Data">
-                              <br> -->
-                              <table style="width:100%">
-                                  <tr>
-                                      <td><h4>Server Rack D </h4></td>
-                                  </tr>
-                              </table>
-                              <table style="width:100%">
-                                  <tr><td>Server 1 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                  <tr><td>Server 2 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                  <tr><td>Server 3 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                  <tr><td>Server 4 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                  <tr><td>Server 5 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                  <tr><td>Server 6 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                  <tr><td>Server 7 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                  <tr><td>Server 8 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                  <tr><td>Server 9 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                  <tr><td>Server 10 THD Data: <span id="displayNumber"></span>%</td></tr>  
-                                  <tr><td>Rack THD: -</td></tr>         
-                                  <tr><td>Rack Current: -</td></tr>       
-                                  <tr><td>Rack Voltage: -</td></tr>                                                                                                             
-                              </table>
-                          </div>
-                  
-                          <!-- 5th Server Rack -->
-                          <div class="col" style="flex: 1; max-width: 30%;">
-                              <!-- <input type="button" onclick="DisplayTHDData()" value="Display Server 5 THD Data">
-                              <br> -->
-                              <table style="width:100%">
-                                  <tr>
-                                      <td><h4>Server Rack E </h4></td>
-                                  </tr>
-                              </table>
-                              <table style="width:100%">
-                                <tr><td>Server 1 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 2 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 3 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 4 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 5 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 6 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 7 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 8 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 9 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 10 THD Data: <span id="displayNumber"></span>%</td></tr> 
-                                <tr><td>Rack THD: -</td></tr>         
-                                <tr><td>Rack Current: -</td></tr>       
-                                <tr><td>Rack Voltage: -</td></tr>   
-                              </table>
-                          </div>
-                  
-                          <!-- 6th Server Rack -->
-                          <div class="col" style="flex: 1; max-width: 30%;">
-                              <!-- <input type="button" onclick="DisplayTHDData()" value="Display Server 6 THD Data">
-                              <br> -->
-                              <table style="width:100%">
-                                  <tr>
-                                      <td><h4>Server Rack F </h4></td>
-                                  </tr>
-                              </table>
-                              <table style="width:100%">
-                                <tr><td>Server 1 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 2 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 3 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 4 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 5 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 6 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 7 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 8 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 9 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 10 THD Data: <span id="displayNumber"></span>%</td></tr> 
-                                <tr><td>Rack THD: -</td></tr>         
-                                <tr><td>Rack Current: -</td></tr>       
-                                <tr><td>Rack Voltage: -</td></tr>   
-                              </table>
-                          </div>
-                      </div>
-                  </div>
-                    
-
-                  <br>
-                  <br>
-                  <br>
-                  <br>
-
-
-                  <div class="container" style="display: flex; justify-content: center;">
-                    <div class="row" style="display: flex; justify-content: space-around; max-width: 1200px; width: 100%;">
-
-                        <!-- 7th Server Rack -->
-                        <div class="col" style="flex: 1; max-width: 30%;">
-                            <!-- <input type="button" onclick="DisplayTHDData()" value="Display Server 7 THD Data">
-                            <br> -->
-                            <table style="width:100%">
-                                <tr>
-                                    <td><h4>Server Rack G </h4></td>
-                                </tr>
-                            </table>
-                            <table style="width:100%">
-                                <tr><td>Server 1 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 2 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 3 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 4 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 5 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 6 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 7 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 8 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 9 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 10 THD Data: <span id="displayNumber"></span>%</td></tr>     
-                                <tr><td>Rack THD: -</td></tr>         
-                                <tr><td>Rack Current: -</td></tr>       
-                                <tr><td>Rack Voltage: -</td></tr>                                                                                                          
-                            </table>
-                        </div>
-                
-                        <!-- 8th Server Rack -->
-                        <div class="col" style="flex: 1; max-width: 30%;">
-                            <!-- <input type="button" onclick="DisplayTHDData()" value="Display Server 8 THD Data">
-                            <br> -->
-                            <table style="width:100%">
-                                <tr>
-                                    <td><h4>Server Rack H </h4></td>
-                                </tr>
-                            </table>
-                            <table style="width:100%">
-                              <tr><td>Server 1 THD Data: <span id="displayNumber"></span>%</td></tr>
-                              <tr><td>Server 2 THD Data: <span id="displayNumber"></span>%</td></tr>
-                              <tr><td>Server 3 THD Data: <span id="displayNumber"></span>%</td></tr>
-                              <tr><td>Server 4 THD Data: <span id="displayNumber"></span>%</td></tr>
-                              <tr><td>Server 5 THD Data: <span id="displayNumber"></span>%</td></tr>
-                              <tr><td>Server 6 THD Data: <span id="displayNumber"></span>%</td></tr>
-                              <tr><td>Server 7 THD Data: <span id="displayNumber"></span>%</td></tr>
-                              <tr><td>Server 8 THD Data: <span id="displayNumber"></span>%</td></tr>
-                              <tr><td>Server 9 THD Data: <span id="displayNumber"></span>%</td></tr>
-                              <tr><td>Server 10 THD Data: <span id="displayNumber"></span>%</td></tr> 
-                              <tr><td>Rack THD: -</td></tr>         
-                              <tr><td>Rack Current: -</td></tr>       
-                              <tr><td>Rack Voltage: -</td></tr>   
-                            </table>
-                        </div>
-                
-                        <!-- 9th Server Rack -->
-                        <div class="col" style="flex: 1; max-width: 30%;">
-                            <!-- <input type="button" onclick="DisplayTHDData()" value="Display Server 9 THD Data">
-                            <br> -->
-                            <table style="width:100%">
-                                <tr>
-                                    <td><h4>Server Rack J </h4></td>
-                                </tr>
-                            </table>
-                            <table style="width:100%">
-                              <tr><td>Server 1 THD Data: <span id="displayNumber21"></span>%</td></tr>
-                              <tr><td>Server 2 THD Data: <span id="displayNumber22"></span>%</td></tr>
-                              <tr><td>Server 3 THD Data: <span id="displayNumber23"></span>%</td></tr>
-                              <tr><td>Server 4 THD Data: <span id="displayNumber24"></span>%</td></tr>
-                              <tr><td>Server 5 THD Data: <span id="displayNumber25"></span>%</td></tr>
-                              <tr><td>Server 6 THD Data: <span id="displayNumber26"></span>%</td></tr>
-                              <tr><td>Server 7 THD Data: <span id="displayNumber27"></span>%</td></tr>
-                              <tr><td>Server 8 THD Data: <span id="displayNumber28"></span>%</td></tr>
-                              <tr><td>Server 9 THD Data: <span id="displayNumber29"></span>%</td></tr>
-                              <tr><td>Server 10 THD Data: <span id="displayNumber30"></span>%</td></tr> 
-                              <tr><td>Rack THD: -</td></tr>         
-                              <tr><td>Rack Current: -</td></tr>       
-                              <tr><td>Rack Voltage: -</td></tr>   
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <br>
-                <br>

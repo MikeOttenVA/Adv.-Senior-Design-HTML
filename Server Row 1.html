@@ -25,7 +25,33 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    
+
+
+<!--Not important to humans like linking to CSS or Javascript--
+    !--Only exception is the title tag-->
+    <head> 
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Data Center Demo</title>
+        <!-- Links outside references like flexbox -->
+        <link rel="stylesheet" href="css/flexboxgrid.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/font-awesome.css">
+        <script src="https://kit.fontawesome.com/9dcebbc14a.js" crossorigin="anonymous"></script>
+        <style>
+            #chart-container {
+                margin: auto;
+                width: 50%;
+                height: auto;
+            }
+            canvas {
+                width: 100% !important;
+                height: auto !important;
+            }
+        </style>
+    </head>
+
 <script>
 function DisplayTHDData1() {
     let sum = 0; // Initialize sum to calculate total
@@ -205,28 +231,10 @@ function DisplayTHDData1() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- SCRIPT FOR READING THD DATA FOR MICROCONTROLLER-->
 
+<button onclick="connectSerial()" style="margin-left: 10px; margin-top: 10px; margin-bottom: 10px;">Connect</button>
 
-
-
-<button onclick="connectSerial()">Connect</button>
 Baud:
 <input type="text" id="baud" list="baudList" style="width: 10ch;" onclick="this.value = ''"
     onchange="localStorage.baud = this.value">
@@ -306,23 +314,31 @@ Baud:
             row = new_value.substring(underscoreIndex-1,underscoreIndex);
             new_value1 = new_value.substring(underscoreIndex+1);
             underscoreIndex = new_value1.indexOf("x");
-            // appendToTerminal(row);
+            // appendToTerminal(row + " ");
 
             rack = new_value1.substring(underscoreIndex-1,underscoreIndex);
             value_new2 = new_value1.substring(underscoreIndex+1);
             underscoreIndex = value_new2.indexOf("x");
-            // appendToTerminal(rack);
+            // appendToTerminal(rack + " ");
 
             server = value_new2.substring(underscoreIndex-1,underscoreIndex);
-            // appendToTerminal(server);
-            check_char = value_new2.indexOf("p");
-            thd_value = value_new2.substring(underscoreIndex+1,check_char);
+            // appendToTerminal(server + " ");
+            value_new3 = value_new2.substring(underscoreIndex+1);
+            underscoreIndex = value_new3.indexOf("x");
+            thd_value = value_new3.substring(underscoreIndex-3,underscoreIndex);
+            // appendToTerminal(thd_value + " ");
+            
+            underscoreIndex = value_new3.indexOf("x");
+            charIndex = value_new3.indexOf("p");
+            thd_fundamental = value_new3.substring(underscoreIndex+1,charIndex);
+            // appendToTerminal(thd_fundamental + " ");
+
+
             
             // Get the display element
             if(server == "1"){
                 var displayElement = document.getElementById('displayNumber1'); //displayNumber1
                 displayElement.innerHTML = thd_value;
-
                 // Apply color based on the number
                 if (thd_value <= 5) {
                     displayElement.style.color = 'green';
@@ -331,6 +347,7 @@ Baud:
                 } else {
                     displayElement.style.color = 'red';
                 }
+
             } else if (server == "2"){
                 var displayElement = document.getElementById('displayNumber2'); //displayNumber1
                 displayElement.innerHTML = thd_value;
@@ -345,7 +362,14 @@ Baud:
                 }
             }
             // Display the random number
-
+            if (thd_fundamental != "0"){
+                const thdData1 = parseInt(document.getElementById('displayNumber1').innerHTML);
+                const thdData2 = parseInt(document.getElementById('displayNumber2').innerHTML);
+                thdRack = parseInt(Math.sqrt(((thdData1*thdData1)+(thdData2*thdData2))/2));
+                var displayElement = document.getElementById('rackTHD1');
+                displayElement.innerHTML = thdRack;
+                // appendToTerminal(thdRack+ " ");
+            }
         }
     }
     const serialResultsDiv = document.getElementById("serialResults");
@@ -359,6 +383,7 @@ Baud:
 
 </script>
 
+<!-- SCRIPT FOR MICROCONTROLLER END-->
 
 
 
@@ -390,20 +415,6 @@ Baud:
 
 
 
-<!--Not important to humans like linking to CSS or Javascript--
-    !--Only exception is the title tag-->
-    <head> 
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Data Center Demo</title>
-        <!-- Links outside references like flexbox -->
-        <link rel="stylesheet" href="css/flexboxgrid.css">
-        <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/font-awesome.css">
-        <script src="https://kit.fontawesome.com/9dcebbc14a.js" crossorigin="anonymous"></script>
-        <script src="javascript/main.js"></script>
-    </head>
 
     <!--Anything important to human interaction--
      !--Content of site (text, images, links, videos, etc.)-->
@@ -435,7 +446,7 @@ Baud:
                                     <!-- Probably won't need these extra links-->
                                     <li><a href="index.html">Home</a></li> 
                                     <li><a href="Server Map.html">Server Map</a></li> 
-                                    <li><a href="Graph.html">THD Graph Data</a></li> 
+                                    <!-- <li><a href="Graph.html">THD Graph Data</a></li>  -->
                                 </ul>
                             </nav>
                         </div>
@@ -444,8 +455,185 @@ Baud:
             </div>
         </header>
 
-        <!-- SHOWCASE -->
+
+
+
+
+
+
+
+
+
+
+
+
+    </body>
         <section id="showcase">
+            <div class="container">
+                <div class="row center-xs center-sm center-md center-lg middle-xs middle-sm middle-md middle-lg">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <!-- <h1>Welcome to <span class="primary-text">Data Center THD (Total Harmonic Distortion) Graph Data</span></h1>
+                        <p>This page shows the history of the Data Center THD (Total Harmonic Distortion) data</p> -->
+                        <nav id="navbar">
+                            <h2><span class="primary-text">Data Center Servers</span></h2>
+                            <li><a href="Server Row 1.html">Server Row 1</a></li> 
+                            <li><a href="Server Row 2.html">Server Row 2</a></li>
+                            <li><a href="Server Row 3.html">Server Row 3</a></li>
+                            <li><a href="Server Row 4.html">Server Row 4</a></li>
+                            <li><a href="Server Row 5.html">Server Row 5</a></li>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+        <!-- <section id="servers">
+            <div class="row center-xs center-sm center-md center-lg middle-xs middle-sm middle-md middle-lg">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <h2 style="text-align: center;"><span class="primary-text">Data Center THD Data</span></h2>
+                    <div id="chart-container">
+                        <canvas id="myChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+
+        <br>
+
+        <section id="servers">
+            <div class="container">
+                <h2 style="text-align: center;"><span class="primary-text">Server Row 1 THD Data</span></h2>
+                <div class="row center-xs center-sm center-md center-lg middle-xs middle-sm middle-md middle-lg" style="display: flex; justify-content: center;">
+                    <!-- Chart Container -->
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9" id="chart-container">
+                        <canvas id="myChart"></canvas>
+                    </div>
+                    <!-- THD Data Legend -->
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <table style="width:100%">
+                            <tr>
+                                <td><h4>THD Data Legend<br> <span id="statusMessage"></span></td>
+                            </tr>
+                        </table>
+                        <table style="width:100%;">
+                            <tr><td><span style="color: green;">Okay</span>: &le; 5%</td></tr>
+                            <tr><td><span style="color: orange;">Warning</span>: 5% - 12%</td></tr>
+                            <tr><td><span style="color: red;">Critical</span>: &gt; 12%</td></tr>
+                        </table>
+
+                        <br>
+
+                        <table style="width:100%">
+                            <tr>
+                                <td><h4>Server Rack THD Data<br> <span id="statusMessage"></span></td>
+                            </tr>
+                        </table>
+                        <table style="width:100%;">
+                            <tr><td>Server 1 THD Data: <span id="displayNumber1"></span>%</td></tr>
+                            <tr><td>Server 2 THD Data: <span id="displayNumber2"></span>%</td></tr>     
+                            <tr><td>Rack THD: <span id="rackTHD1"></span>%</td></tr>         
+                            <tr><td>Rack Current: -</td></tr>       
+                            <tr><td>Rack Voltage: -</td></tr> 
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>     
+        
+        <br>
+    
+        <!-- THD Graph -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            // X-Axis
+            Chart.defaults.font.size = 20;
+            var data = {
+                labels: ["60", "59", "58", "57", "56", "55", "54", "53", "52", "51", "50", "49", "48", "47", "46", "45", "44", "43", "42", "41", "40", "39", "38", "37", "36", "35", "34", "33", "32", "31", "30", "29", "28", "27", "26", "25", "24", "23", "22", "21", "20", "19", "18", "17", "16", "15", "14", "13", "12", "11", "10", "9", "8", "7", "6", "5", "4", "3", "2", "1", "0"],
+                datasets: [
+                    // First Rack
+                    {
+                        label: "Rack A Server 1",
+                        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        fill: false,
+                        borderColor: "rgb(0, 0, 0)",
+                        lineTension: 0.25
+                    },
+                    // Second Rack
+                    {
+                        label: "Rack A Server 2",
+                        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        fill: false,
+                        borderColor: "rgb(0, 0, 255)",
+                        lineTension: 0.25
+                    },
+                    // // Third Rack
+                    // {
+                    //     label: "Server Rack C",
+                    //     data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    //     fill: false,
+                    //     borderColor: "rgb(128, 0, 128)",
+                    //     lineTension: 0.25
+                    // }
+                ]
+            };
+    
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: data,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'THD Value (%)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Time (seconds)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Data Center THD Data History'
+                        }
+                    }
+                }
+            });
+    
+            // Add new data, and remove old data by shifting numbers
+            function updateChart() {
+                const newData1 = parseFloat(document.getElementById('displayNumber1').innerHTML);
+                const newData2 = parseFloat(document.getElementById('displayNumber2').innerHTML);
+                // const newData3 = Math.floor(Math.random() * 100);
+                myChart.data.datasets[0].data.shift();
+                myChart.data.datasets[0].data.push(newData1);
+                myChart.data.datasets[1].data.shift();
+                myChart.data.datasets[1].data.push(newData2);
+                // myChart.data.datasets[2].data.shift();
+                // myChart.data.datasets[2].data.push(newData3);
+                myChart.update();
+            }
+    
+            // Add new data every 1 seconds
+            setInterval(updateChart, 1000);
+        </script>
+    </body>
+
+
+
+
+
+
+        
+
+
+        <!-- SHOWCASE -->
+        <!-- <section id="showcase">
             <div class="container">
                 <div class="row center-xs center-sm center-md center-lg middle-xs middle-sm middle-md middle-lg">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -454,23 +642,23 @@ Baud:
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
 
         
         <!-- Server Rows-->
         <section id="servers">
             <div class="row center-xs center-sm center-md center-lg middle-xs middle-sm middle-md middle-lg">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                      <nav id="navbar">
+                      <!-- <nav id="navbar">
                         <h2><span class="primary-text">Data Center Servers</span></h2>
                         <li><a href="Server Row 1.html">Server Row 1</a></li> 
-                        <li><a href="Server Row 1.html">Server Row 2</a></li>
+                        <li><a href="Server Row 2.html">Server Row 2</a></li>
                         <li><a href="Server Row 1.html">Server Row 3</a></li>
                         <li><a href="Server Row 1.html">Server Row 4</a></li>
-                        <li><a href="Server Row 1.html">Server Row 5</a></li>
+                        <li><a href="Server Row 1.html">Server Row 5</a></li> -->
 
 
-                            <!-- THD Data Legend-->
+                            <!-- THD Data Legend
                             <div class="container" style="display: flex; justify-content: center;">
                                 <div class="row" style="display: flex; justify-content: space-around; max-width: 1200px; width: 100%;">
                                     <div class="col" style="flex: 1; max-width: 30%;">
@@ -488,26 +676,21 @@ Baud:
                                         </table>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             
-
                         <!-- Current Server Row racks being displayed below -->
                         <h2><span class="primary-text">Server Row 1</span></h2>
                       </nav>
 
-
-                    <br>
 
                       <div class="container" style="display: flex; justify-content: center;">
                         <div class="row" style="display: flex; justify-content: space-around; max-width: 1200px; width: 100%;">
 
                             <!-- First Server Rack -->
                             <div class="col" style="flex: 1; max-width: 30%;">
-                                <input type="button" onclick="DisplayTHDData1()" value="Display Server 1 THD Data">
-                                <br><br>
                                 <table style="width:100%">
                                     <tr>
-                                        <td><h4>Server Rack 1 <br> <span id="statusMessage"></span></td>
+                                        <td><h4>Server Rack A <br> <span id="statusMessage"></span></td>
                                     </tr>
                                 </table>
                                 <table style="width:100%">
@@ -521,17 +704,17 @@ Baud:
                                     <tr><td>Server 8 THD Data: <span id="displayNumber8"></span>%</td></tr>
                                     <tr><td>Server 9 THD Data: <span id="displayNumber9"></span>%</td></tr>
                                     <tr><td>Server 10 THD Data: <span id="displayNumber10"></span>%</td></tr>        
-                                    <tr><td>Average Server Rack THD: <span id="averageDisplay"></span>%</td></tr>                                                                                                    
+                                    <tr><td>Rack THD: -</td></tr>         
+                                    <tr><td>Rack Current: -</td></tr>       
+                                    <tr><td>Rack Voltage: -</td></tr>                                                                                                    
                                 </table>
                             </div>
                     
                             <!-- Second Server Rack -->
                             <div class="col" style="flex: 1; max-width: 30%;">
-                                <input type="button" onclick="DisplayTHDData2()" value="Display Server 2 THD Data">
-                                <br><br>
                                 <table style="width:100%">
                                     <tr>
-                                        <td><h4>Server Rack 2 <br> <span id="statusMessage2"></span> </h4></td>
+                                        <td><h4>Server Rack B <br> <span id="statusMessage2"></span> </h4></td>
                                     </tr>
                                 </table>
                                 <table style="width:100%">
@@ -545,17 +728,17 @@ Baud:
                                   <tr><td>Server 8 THD Data: <span id="displayNumber18"></span>%</td></tr>
                                   <tr><td>Server 9 THD Data: <span id="displayNumber19"></span>%</td></tr>
                                   <tr><td>Server 10 THD Data: <span id="displayNumber20"></span>%</td></tr> 
-                                  <tr><td>Average Server Rack THD: <span id="averageDisplay2"></span>%</td></tr>
+                                  <tr><td>Rack THD: -</td></tr>         
+                                  <tr><td>Rack Current: -</td></tr>       
+                                  <tr><td>Rack Voltage: -</td></tr>  
                                 </table>
                             </div>
                     
                             <!-- Third Server Rack -->
                             <div class="col" style="flex: 1; max-width: 30%;">
-                                <input type="button" onclick="DisplayTHDData3()" value="Display Server 3 THD Data">
-                                <br><br>
                                 <table style="width:100%">
                                     <tr>
-                                        <td><h4>Server Rack 3 <br> <span id="statusMessage3"></span> </h4></td>
+                                        <td><h4>Server Rack C <br> <span id="statusMessage3"></span> </h4></td>
                                     </tr>
                                 </table>
                                 <table style="width:100%">
@@ -569,7 +752,9 @@ Baud:
                                   <tr><td>Server 8 THD Data: <span id="displayNumber28"></span>%</td></tr>
                                   <tr><td>Server 9 THD Data: <span id="displayNumber29"></span>%</td></tr>
                                   <tr><td>Server 10 THD Data: <span id="displayNumber30"></span>%</td></tr> 
-                                  <tr><td>Average Server Rack THD: <span id="averageDisplay3"></span>%</td></tr>
+                                  <tr><td>Rack THD: -</td></tr>         
+                                  <tr><td>Rack Current: -</td></tr>       
+                                  <tr><td>Rack Voltage: -</td></tr>  
                                 </table>
                             </div>
                         </div>
@@ -578,14 +763,9 @@ Baud:
 
                     <br>
                     <br>
-                    <br>
-                    <br>
-
-
+<!-- 
                     <div class="container" style="display: flex; justify-content: center;">
                       <div class="row" style="display: flex; justify-content: space-around; max-width: 1200px; width: 100%;">
-
-                          <!-- 4th Server Rack -->
                           <div class="col" style="flex: 1; max-width: 30%;">
                               <input type="button" onclick="DisplayTHDData()" value="Display Server 4 THD Data">
                               <br><br>
@@ -608,7 +788,6 @@ Baud:
                               </table>
                           </div>
                   
-                          <!-- 5th Server Rack -->
                           <div class="col" style="flex: 1; max-width: 30%;">
                               <input type="button" onclick="DisplayTHDData()" value="Display Server 5 THD Data">
                               <br><br>
@@ -631,7 +810,6 @@ Baud:
                               </table>
                           </div>
                   
-                          <!-- 6th Server Rack -->
                           <div class="col" style="flex: 1; max-width: 30%;">
                               <input type="button" onclick="DisplayTHDData()" value="Display Server 6 THD Data">
                               <br><br>
@@ -655,7 +833,6 @@ Baud:
                           </div>
                       </div>
                   </div>
-                    
 
                   <br>
                   <br>
@@ -666,7 +843,6 @@ Baud:
                   <div class="container" style="display: flex; justify-content: center;">
                     <div class="row" style="display: flex; justify-content: space-around; max-width: 1200px; width: 100%;">
 
-                        <!-- 7th Server Rack -->
                         <div class="col" style="flex: 1; max-width: 30%;">
                             <input type="button" onclick="DisplayTHDData()" value="Display Server 7 THD Data">
                             <br><br>
@@ -689,7 +865,6 @@ Baud:
                             </table>
                         </div>
                 
-                        <!-- 8th Server Rack -->
                         <div class="col" style="flex: 1; max-width: 30%;">
                             <input type="button" onclick="DisplayTHDData()" value="Display Server 8 THD Data">
                             <br><br>
@@ -712,7 +887,6 @@ Baud:
                             </table>
                         </div>
                 
-                        <!-- 9th Server Rack -->
                         <div class="col" style="flex: 1; max-width: 30%;">
                             <input type="button" onclick="DisplayTHDData()" value="Display Server 9 THD Data">
                             <br><br>
@@ -736,9 +910,5 @@ Baud:
                         </div>
                     </div>
                 </div>
+                     -->
 
-
-                <br>
-                <br>
-                <br>
-                <br>

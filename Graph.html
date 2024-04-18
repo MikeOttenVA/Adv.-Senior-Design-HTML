@@ -19,6 +19,7 @@
         }
     </style>
 </head>
+
 <body>
     <header id="main-header">
         <div class="container">
@@ -129,7 +130,7 @@
 
         // Add new data, and remove old data by shifting numbers
         function updateChart() {
-            const newData1 = Math.floor(Math.random() * 100);
+            const newData1 = document.getElementById('displayNumber1').innerHTML;
             const newData2 = Math.floor(Math.random() * 100);
             const newData3 = Math.floor(Math.random() * 100);
             myChart.data.datasets[0].data.shift();
