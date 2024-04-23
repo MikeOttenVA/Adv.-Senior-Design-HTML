@@ -12,7 +12,7 @@
     ToDo List:
     - Implement scripting language, needs to handle
         - Changing of color of individual server pieces (red, orange, yellow, green)
-        - Updating THD % on servers
+        - Updating CTHD % on servers
     - Improve design of how servers will look, i.e.,
         - How many servers are in each rack?
         - How to handle 1u, 2u, 3u servers
@@ -42,11 +42,11 @@
         <style>
             #chart-container {
                 margin: auto;
-                width: 50%;
+                width: auto;
                 height: auto;
             }
             canvas {
-                width: 100% !important;
+                width: 105% !important;
                 height: auto !important;
             }
         </style>
@@ -67,9 +67,9 @@ function DisplayTHDData1() {
         displayElement.innerHTML = randomNumber;
 
         // Apply color based on the number
-        if (randomNumber <= 5) {
+        if (randomNumber < 50) {
             displayElement.style.color = 'green';
-        } else if (randomNumber > 5 && randomNumber <= 12) {
+        } else if (randomNumber >= 50 && randomNumber <= 100) {
             displayElement.style.color = 'orange';
         } else {
             displayElement.style.color = 'red';
@@ -86,11 +86,11 @@ function DisplayTHDData1() {
     var statusElement = document.getElementById('statusMessage'); // Ensure you have an element with this ID in your HTML
 
     // Change the text and color of the status element based on the average
-    if (average <= 5) {
+    if (average < 50) {
         averageElement.style.color = 'green';
-        statusElement.innerHTML = "Okay"; // Assuming 'Moderate THD Levels' is for average < 10
+        statusElement.innerHTML = "Okay"; // Assuming 'Moderate CTHD Levels' is for average < 10
         statusElement.style.color = 'green';
-    } else if (average > 5 && average <= 12) {
+    } else if (average >= 50 && average <= 100) {
         averageElement.style.color = 'orange';
         statusElement.innerHTML = "Warning";
         statusElement.style.color = 'orange';
@@ -120,9 +120,9 @@ function DisplayTHDData1() {
           displayElement.innerHTML = randomNumber;
 
           // Apply color based on the number
-          if (randomNumber <= 5) {
+          if (randomNumber < 50) {
               displayElement.style.color = 'green';
-          } else if (randomNumber > 5 && randomNumber <= 12) {
+          } else if (randomNumber >= 5 && randomNumber <= 100) {
               displayElement.style.color = 'orange';
           } else {
               displayElement.style.color = 'red';
@@ -140,11 +140,11 @@ function DisplayTHDData1() {
     var statusElement = document.getElementById('statusMessage2'); // Ensure you have an element with this ID in your HTML
 
     // Change the text and color of the status element based on the average
-    if (average <= 5) {
+    if (average < 50) {
         averageElement.style.color = 'green';
-        statusElement.innerHTML = "Okay"; // Assuming 'Low THD Levels' is for average < 10
+        statusElement.innerHTML = "Okay"; // Assuming 'Low CTHD Levels' is for average < 10
         statusElement.style.color = 'green';
-    } else if (average > 5 && average <= 12) {
+    } else if (average > 50 && average <= 100) {
         averageElement.style.color = 'orange';
         statusElement.innerHTML = "Warning";
         statusElement.style.color = 'orange';
@@ -174,9 +174,9 @@ function DisplayTHDData1() {
           displayElement.innerHTML = randomNumber;
 
           // Apply color based on the number
-          if (randomNumber <= 5) {
+          if (randomNumber < 50) {
               displayElement.style.color = 'green';
-          } else if (randomNumber > 5 && randomNumber <= 12) {
+          } else if (randomNumber >= 50 && randomNumber <= 100) {
               displayElement.style.color = 'orange';
           } else {
               displayElement.style.color = 'red';
@@ -193,11 +193,11 @@ function DisplayTHDData1() {
     var statusElement = document.getElementById('statusMessage3'); // Ensure you have an element with this ID in your HTML
 
     // Change the text and color of the status element based on the average
-    if (average <= 5) {
+    if (average < 50) {
         averageElement.style.color = 'green';
-        statusElement.innerHTML = "Okay"; // Assuming 'Low THD Levels' is for average < 10
+        statusElement.innerHTML = "Okay"; // Assuming 'Low CTHD Levels' is for average < 10
         statusElement.style.color = 'green';
-    } else if (average > 5 && average <= 12) {
+    } else if (average >= 50 && average < 100) {
         averageElement.style.color = 'orange';
         statusElement.innerHTML = "Warning";
         statusElement.style.color = 'orange';
@@ -231,7 +231,7 @@ function DisplayTHDData1() {
 
 
 
-<!-- SCRIPT FOR READING THD DATA FOR MICROCONTROLLER-->
+<!-- SCRIPT FOR READING CTHD DATA FOR MICROCONTROLLER-->
 
 <button onclick="connectSerial()" style="margin-left: 10px; margin-top: 10px; margin-bottom: 10px;">Connect</button>
 
@@ -261,7 +261,7 @@ Baud:
     
 </div>
 <script>
-    var port, textEncoder, writableStreamClosed, writer, buffer;
+    var port, textEncoder, writableStreamClosed, writer, buffer,rms_current1,rms_current2;
     async function connectSerial() {
         try {
             // Prompt user to select any serial port.
@@ -281,6 +281,8 @@ Baud:
         const textDecoder = new TextDecoderStream();
         const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
         const reader = textDecoder.readable.getReader();
+        // const rms_current1 = 0;
+        // const rms_current2 = 0;
         // Listen to data coming from the serial device.
         while (true) {
             const { value, done } = await reader.read();
@@ -328,10 +330,16 @@ Baud:
             thd_value = value_new3.substring(underscoreIndex-3,underscoreIndex);
             // appendToTerminal(thd_value + " ");
             
-            underscoreIndex = value_new3.indexOf("x");
-            charIndex = value_new3.indexOf("p");
-            thd_fundamental = value_new3.substring(underscoreIndex+1,charIndex);
+            value_new4 = value_new3.substring(underscoreIndex+1);
+            underscoreIndex = value_new4.indexOf("x");
+            // charIndex = value_new3.indexOf("x");
+            thd_fundamental = value_new4.substring(underscoreIndex-2,underscoreIndex);
             // appendToTerminal(thd_fundamental + " ");
+
+            value_new5 = value_new4.substring(underscoreIndex+1);
+            charIndex = value_new5.indexOf("p");
+            rms_current = value_new5.substring(charIndex-4,charIndex);
+            // appendToTerminal(rms_current + " ");
 
 
             
@@ -340,38 +348,86 @@ Baud:
                 var displayElement = document.getElementById('displayNumber1'); //displayNumber1
                 displayElement.innerHTML = thd_value;
                 // Apply color based on the number
-                if (thd_value <= 5) {
+                if (thd_value < 50) {
                     displayElement.style.color = 'green';
-                } else if (thd_value > 5 && thd_value <= 12) {
+                } else if (thd_value >= 50 && thd_value <= 100) {
                     displayElement.style.color = 'orange';
                 } else {
                     displayElement.style.color = 'red';
                 }
-
+                rms_current1 = rms_current;
             } else if (server == "2"){
                 var displayElement = document.getElementById('displayNumber2'); //displayNumber1
                 displayElement.innerHTML = thd_value;
 
                 // Apply color based on the number
-                if (thd_value <= 5) {
+                if (thd_value <= 50) {
                     displayElement.style.color = 'green';
-                } else if (thd_value > 5 && thd_value <= 12) {
+                } else if (thd_value > 50 && thd_value <= 100) {
                     displayElement.style.color = 'orange';
                 } else {
                     displayElement.style.color = 'red';
                 }
+                rms_current2 = rms_current;
             }
             // Display the random number
             if (thd_fundamental != "0"){
-                const thdData1 = parseInt(document.getElementById('displayNumber1').innerHTML);
-                const thdData2 = parseInt(document.getElementById('displayNumber2').innerHTML);
-                thdRack = parseInt(Math.sqrt(((thdData1*thdData1)+(thdData2*thdData2))/2));
+                thdRack = 0;
+                thdData1 = parseInt(document.getElementById('displayNumber1').innerHTML);
+                thdData2 = parseInt(document.getElementById('displayNumber2').innerHTML);
+                if((!isNaN(thdData1) &  !isNaN(thdData2)) & thdData1!= 0 & thdData2 !=0){
+                    thdRack = parseInt(Math.sqrt(((thdData1*thdData1)+(thdData2*thdData2))/2));
+                }else if(!isNaN(thdData1) & thdData1 != 0){
+                    thdRack = parseInt(thdData1);
+                }else if (!isNaN(thdData2) & thdData2 !=0){
+                    thdRack = parseInt(thdData2);
+                }else{
+                    thdRack = 0;
+                }
+                // appendToTerminal("1&2 " + thdRack+ " ");
+                // appendToTerminal("1 " + thdRack+ " ");
+                // appendToTerminal("2 "+ thdRack+ " ");
                 var displayElement = document.getElementById('rackTHD1');
                 displayElement.innerHTML = thdRack;
+                
                 // appendToTerminal(thdRack+ " ");
+            }
+            if(!isNaN(thdRack)){
+                var statusElement1 = document.getElementById('serverRackCTHDStatus');
+                 // Apply color based on the number
+                 if (thdRack < 50) {
+                    statusElement1.innerHTML = 'Okay';
+                    statusElement1.style.color = 'green';
+                } else if (thdRack >= 50 && thdRack <= 100) {
+                    statusElement1.innerHTML = 'Warning';
+                    statusElement1.style.color = 'orange';
+                } else {
+                    statusElement1.innerHTML = 'Critical';
+                    statusElement1.style.color = 'red';
+                }
+            }
+            // Display the rack current draw
+            if(rms_current != 0){
+                rack_rms_current = 0;
+                if(!isNaN(rms_current1) & isNaN(rms_current2) & rms_current1!=0 & rms_current2!=0){
+                    rack_rms_current = rms_current1+rms_current2;
+                } else if (!isNaN(rms_current1) & rms_current1!=0){
+                    rack_rms_current = rms_current1;
+                } else if (!isNaN(rms_current2) & rms_current2!=0){
+                    rack_rms_current = rms_current2;
+                } else{
+                    rack_rms_current = 0;
+                }
+                var displayElement = document.getElementById('rackRmsCurrent');
+                displayElement.innerHTML = parseFloat(rack_rms_current);
+            }
+            if(thdRack == 0){
+                var displayElement = document.getElementById('rackRmsCurrent');
+                displayElement.innerHTML = 0;
             }
         }
     }
+            
     const serialResultsDiv = document.getElementById("serialResults");
     async function appendToTerminal(newStuff) {
         serialResultsDiv.innerHTML += newStuff;
@@ -446,7 +502,7 @@ Baud:
                                     <!-- Probably won't need these extra links-->
                                     <li><a href="index.html">Home</a></li> 
                                     <li><a href="Server Map.html">Server Map</a></li> 
-                                    <!-- <li><a href="Graph.html">THD Graph Data</a></li>  -->
+                                    <!-- <li><a href="Graph.html">CTHD Graph Data</a></li>  -->
                                 </ul>
                             </nav>
                         </div>
@@ -472,8 +528,8 @@ Baud:
             <div class="container">
                 <div class="row center-xs center-sm center-md center-lg middle-xs middle-sm middle-md middle-lg">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <!-- <h1>Welcome to <span class="primary-text">Data Center THD (Total Harmonic Distortion) Graph Data</span></h1>
-                        <p>This page shows the history of the Data Center THD (Total Harmonic Distortion) data</p> -->
+                        <!-- <h1>Welcome to <span class="primary-text">Data Center CTHD (Total Harmonic Distortion) Graph Data</span></h1>
+                        <p>This page shows the history of the Data Center CTHD (Total Harmonic Distortion) data</p> -->
                         <nav id="navbar">
                             <h2><span class="primary-text">Data Center Servers</span></h2>
                             <li><a href="Server Row 1.html">Server Row 1</a></li> 
@@ -489,7 +545,7 @@ Baud:
         <!-- <section id="servers">
             <div class="row center-xs center-sm center-md center-lg middle-xs middle-sm middle-md middle-lg">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <h2 style="text-align: center;"><span class="primary-text">Data Center THD Data</span></h2>
+                    <h2 style="text-align: center;"><span class="primary-text">Data Center CTHD Data</span></h2>
                     <div id="chart-container">
                         <canvas id="myChart"></canvas>
                     </div>
@@ -501,37 +557,37 @@ Baud:
 
         <section id="servers">
             <div class="container">
-                <h2 style="text-align: center;"><span class="primary-text">Server Row 1 THD Data</span></h2>
+                <h2 style="text-align: center;"><span class="primary-text">Server Row 1 CTHD Data</span></h2>
                 <div class="row center-xs center-sm center-md center-lg middle-xs middle-sm middle-md middle-lg" style="display: flex; justify-content: center;">
                     <!-- Chart Container -->
                     <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9" id="chart-container">
                         <canvas id="myChart"></canvas>
                     </div>
-                    <!-- THD Data Legend -->
+                    <!-- CTHD Data Legend -->
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                         <table style="width:100%">
                             <tr>
-                                <td><h4>THD Data Legend<br> <span id="statusMessage"></span></td>
+                                <td><h4>CTHD Data Legend<br> <span id="statusMessage"></span></td>
                             </tr>
                         </table>
                         <table style="width:100%;">
-                            <tr><td><span style="color: green;">Okay</span>: &le; 5%</td></tr>
-                            <tr><td><span style="color: orange;">Warning</span>: 5% - 12%</td></tr>
-                            <tr><td><span style="color: red;">Critical</span>: &gt; 12%</td></tr>
+                            <tr><td><span style="color: green;">Okay</span>: &lt; 50%</td></tr>
+                            <tr><td><span style="color: orange;">Warning</span>: 50% - 100%</td></tr>
+                            <tr><td><span style="color: red;">Critical</span>: &gt; 100%</td></tr>
                         </table>
 
                         <br>
 
                         <table style="width:100%">
                             <tr>
-                                <td><h4>Server Rack THD Data<br> <span id="statusMessage"></span></td>
+                                <td><h4>Server Rack CTHD Data<br> <span id="serverRackCTHDStatus"></span></td>
                             </tr>
                         </table>
                         <table style="width:100%;">
-                            <tr><td>Server 1 THD Data: <span id="displayNumber1"></span>%</td></tr>
-                            <tr><td>Server 2 THD Data: <span id="displayNumber2"></span>%</td></tr>     
-                            <tr><td>Rack THD: <span id="rackTHD1"></span>%</td></tr>         
-                            <tr><td>Rack Current: -</td></tr>       
+                            <tr><td>Server 1 CTHD Data: <span id="displayNumber1"></span>%</td></tr>
+                            <tr><td>Server 2 CTHD Data: <span id="displayNumber2"></span>%</td></tr>     
+                            <tr><td>Rack CTHD: <span id="rackTHD1"></span>%</td></tr>         
+                            <tr><td>Rack Current: <span id="rackRmsCurrent"></span>A</td></tr>       
                             <tr><td>Rack Voltage: -</td></tr> 
                         </table>
                     </div>
@@ -541,7 +597,7 @@ Baud:
         
         <br>
     
-        <!-- THD Graph -->
+        <!-- CTHD Graph -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
             // X-Axis
@@ -586,7 +642,7 @@ Baud:
                             beginAtZero: true,
                             title: {
                                 display: true,
-                                text: 'THD Value (%)'
+                                text: 'CTHD Value (%)'
                             }
                         },
                         x: {
@@ -599,9 +655,10 @@ Baud:
                     plugins: {
                         title: {
                             display: true,
-                            text: 'Data Center THD Data History'
+                            text: 'Data Center CTHD Data History'
                         }
-                    }
+                    },
+                    Response: false
                 }
             });
     
@@ -638,7 +695,7 @@ Baud:
                 <div class="row center-xs center-sm center-md center-lg middle-xs middle-sm middle-md middle-lg">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <h1> Welcome to <span class="primary-text">Data Center Servers</span></h1>
-                        <p>This page shows the THD values for each rack on this server row.</p>
+                        <p>This page shows the CTHD values for each rack on this server row.</p>
                     </div>
                 </div>
             </div>
@@ -658,14 +715,14 @@ Baud:
                         <li><a href="Server Row 1.html">Server Row 5</a></li> -->
 
 
-                            <!-- THD Data Legend
+                            <!-- CTHD Data Legend
                             <div class="container" style="display: flex; justify-content: center;">
                                 <div class="row" style="display: flex; justify-content: space-around; max-width: 1200px; width: 100%;">
                                     <div class="col" style="flex: 1; max-width: 30%;">
                                         <table style="width:100%">
                                             <br>
                                             <tr>
-                                                <td><h4 style="color: black">THD Data Legend</h4></td>
+                                                <td><h4 style="color: black">CTHD Data Legend</h4></td>
                                             </tr>
                                         </table>
                                         <table style="width:100%">
@@ -694,17 +751,17 @@ Baud:
                                     </tr>
                                 </table>
                                 <table style="width:100%">
-                                    <tr><td>Server 1 THD Data: <span id="displayNumber1"></span>%</td></tr>
-                                    <tr><td>Server 2 THD Data: <span id="displayNumber2"></span>%</td></tr>
-                                    <tr><td>Server 3 THD Data: <span id="displayNumber3"></span>%</td></tr>
-                                    <tr><td>Server 4 THD Data: <span id="displayNumber4"></span>%</td></tr>
-                                    <tr><td>Server 5 THD Data: <span id="displayNumber5"></span>%</td></tr>
-                                    <tr><td>Server 6 THD Data: <span id="displayNumber6"></span>%</td></tr>
-                                    <tr><td>Server 7 THD Data: <span id="displayNumber7"></span>%</td></tr>
-                                    <tr><td>Server 8 THD Data: <span id="displayNumber8"></span>%</td></tr>
-                                    <tr><td>Server 9 THD Data: <span id="displayNumber9"></span>%</td></tr>
-                                    <tr><td>Server 10 THD Data: <span id="displayNumber10"></span>%</td></tr>        
-                                    <tr><td>Rack THD: -</td></tr>         
+                                    <tr><td>Server 1 CTHD Data: <span id="displayNumber1"></span>%</td></tr>
+                                    <tr><td>Server 2 CTHD Data: <span id="displayNumber2"></span>%</td></tr>
+                                    <tr><td>Server 3 CTHD Data: <span id="displayNumber3"></span>%</td></tr>
+                                    <tr><td>Server 4 CTHD Data: <span id="displayNumber4"></span>%</td></tr>
+                                    <tr><td>Server 5 CTHD Data: <span id="displayNumber5"></span>%</td></tr>
+                                    <tr><td>Server 6 CTHD Data: <span id="displayNumber6"></span>%</td></tr>
+                                    <tr><td>Server 7 CTHD Data: <span id="displayNumber7"></span>%</td></tr>
+                                    <tr><td>Server 8 CTHD Data: <span id="displayNumber8"></span>%</td></tr>
+                                    <tr><td>Server 9 CTHD Data: <span id="displayNumber9"></span>%</td></tr>
+                                    <tr><td>Server 10 CTHD Data: <span id="displayNumber10"></span>%</td></tr>        
+                                    <tr><td>Rack CTHD : -</td></tr>         
                                     <tr><td>Rack Current: -</td></tr>       
                                     <tr><td>Rack Voltage: -</td></tr>                                                                                                    
                                 </table>
@@ -718,17 +775,17 @@ Baud:
                                     </tr>
                                 </table>
                                 <table style="width:100%">
-                                  <tr><td>Server 1 THD Data: <span id="displayNumber11"></span>%</td></tr>
-                                  <tr><td>Server 2 THD Data: <span id="displayNumber12"></span>%</td></tr>
-                                  <tr><td>Server 3 THD Data: <span id="displayNumber13"></span>%</td></tr>
-                                  <tr><td>Server 4 THD Data: <span id="displayNumber14"></span>%</td></tr>
-                                  <tr><td>Server 5 THD Data: <span id="displayNumber15"></span>%</td></tr>
-                                  <tr><td>Server 6 THD Data: <span id="displayNumber16"></span>%</td></tr>
-                                  <tr><td>Server 7 THD Data: <span id="displayNumber17"></span>%</td></tr>
-                                  <tr><td>Server 8 THD Data: <span id="displayNumber18"></span>%</td></tr>
-                                  <tr><td>Server 9 THD Data: <span id="displayNumber19"></span>%</td></tr>
-                                  <tr><td>Server 10 THD Data: <span id="displayNumber20"></span>%</td></tr> 
-                                  <tr><td>Rack THD: -</td></tr>         
+                                  <tr><td>Server 1 CTHD Data: <span id="displayNumber11"></span>%</td></tr>
+                                  <tr><td>Server 2 CTHD Data: <span id="displayNumber12"></span>%</td></tr>
+                                  <tr><td>Server 3 CTHD Data: <span id="displayNumber13"></span>%</td></tr>
+                                  <tr><td>Server 4 CTHD Data: <span id="displayNumber14"></span>%</td></tr>
+                                  <tr><td>Server 5 CTHD Data: <span id="displayNumber15"></span>%</td></tr>
+                                  <tr><td>Server 6 CTHD Data: <span id="displayNumber16"></span>%</td></tr>
+                                  <tr><td>Server 7 CTHD Data: <span id="displayNumber17"></span>%</td></tr>
+                                  <tr><td>Server 8 CTHD Data: <span id="displayNumber18"></span>%</td></tr>
+                                  <tr><td>Server 9 CTHD Data: <span id="displayNumber19"></span>%</td></tr>
+                                  <tr><td>Server 10 CTHD Data: <span id="displayNumber20"></span>%</td></tr> 
+                                  <tr><td>Rack CTHD : -</td></tr>         
                                   <tr><td>Rack Current: -</td></tr>       
                                   <tr><td>Rack Voltage: -</td></tr>  
                                 </table>
@@ -742,17 +799,17 @@ Baud:
                                     </tr>
                                 </table>
                                 <table style="width:100%">
-                                  <tr><td>Server 1 THD Data: <span id="displayNumber21"></span>%</td></tr>
-                                  <tr><td>Server 2 THD Data: <span id="displayNumber22"></span>%</td></tr>
-                                  <tr><td>Server 3 THD Data: <span id="displayNumber23"></span>%</td></tr>
-                                  <tr><td>Server 4 THD Data: <span id="displayNumber24"></span>%</td></tr>
-                                  <tr><td>Server 5 THD Data: <span id="displayNumber25"></span>%</td></tr>
-                                  <tr><td>Server 6 THD Data: <span id="displayNumber26"></span>%</td></tr>
-                                  <tr><td>Server 7 THD Data: <span id="displayNumber27"></span>%</td></tr>
-                                  <tr><td>Server 8 THD Data: <span id="displayNumber28"></span>%</td></tr>
-                                  <tr><td>Server 9 THD Data: <span id="displayNumber29"></span>%</td></tr>
-                                  <tr><td>Server 10 THD Data: <span id="displayNumber30"></span>%</td></tr> 
-                                  <tr><td>Rack THD: -</td></tr>         
+                                  <tr><td>Server 1 CTHD Data: <span id="displayNumber21"></span>%</td></tr>
+                                  <tr><td>Server 2 CTHD Data: <span id="displayNumber22"></span>%</td></tr>
+                                  <tr><td>Server 3 CTHD Data: <span id="displayNumber23"></span>%</td></tr>
+                                  <tr><td>Server 4 CTHD Data: <span id="displayNumber24"></span>%</td></tr>
+                                  <tr><td>Server 5 CTHD Data: <span id="displayNumber25"></span>%</td></tr>
+                                  <tr><td>Server 6 CTHD Data: <span id="displayNumber26"></span>%</td></tr>
+                                  <tr><td>Server 7 CTHD Data: <span id="displayNumber27"></span>%</td></tr>
+                                  <tr><td>Server 8 CTHD Data: <span id="displayNumber28"></span>%</td></tr>
+                                  <tr><td>Server 9 CTHD Data: <span id="displayNumber29"></span>%</td></tr>
+                                  <tr><td>Server 10 CTHD Data: <span id="displayNumber30"></span>%</td></tr> 
+                                  <tr><td>Rack CTHD : -</td></tr>         
                                   <tr><td>Rack Current: -</td></tr>       
                                   <tr><td>Rack Voltage: -</td></tr>  
                                 </table>
@@ -767,7 +824,7 @@ Baud:
                     <div class="container" style="display: flex; justify-content: center;">
                       <div class="row" style="display: flex; justify-content: space-around; max-width: 1200px; width: 100%;">
                           <div class="col" style="flex: 1; max-width: 30%;">
-                              <input type="button" onclick="DisplayTHDData()" value="Display Server 4 THD Data">
+                              <input type="button" onclick="DisplayTHDData()" value="Display Server 4 CTHD Data">
                               <br><br>
                               <table style="width:100%">
                                   <tr>
@@ -775,21 +832,21 @@ Baud:
                                   </tr>
                               </table>
                               <table style="width:100%">
-                                  <tr><td>Server 1 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                  <tr><td>Server 2 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                  <tr><td>Server 3 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                  <tr><td>Server 4 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                  <tr><td>Server 5 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                  <tr><td>Server 6 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                  <tr><td>Server 7 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                  <tr><td>Server 8 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                  <tr><td>Server 9 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                  <tr><td>Server 10 THD Data: <span id="displayNumber"></span>%</td></tr>                                                                                                            
+                                  <tr><td>Server 1 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                  <tr><td>Server 2 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                  <tr><td>Server 3 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                  <tr><td>Server 4 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                  <tr><td>Server 5 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                  <tr><td>Server 6 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                  <tr><td>Server 7 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                  <tr><td>Server 8 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                  <tr><td>Server 9 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                  <tr><td>Server 10 CTHD Data: <span id="displayNumber"></span>%</td></tr>                                                                                                            
                               </table>
                           </div>
                   
                           <div class="col" style="flex: 1; max-width: 30%;">
-                              <input type="button" onclick="DisplayTHDData()" value="Display Server 5 THD Data">
+                              <input type="button" onclick="DisplayTHDData()" value="Display Server 5 CTHD Data">
                               <br><br>
                               <table style="width:100%">
                                   <tr>
@@ -797,21 +854,21 @@ Baud:
                                   </tr>
                               </table>
                               <table style="width:100%">
-                                <tr><td>Server 1 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 2 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 3 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 4 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 5 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 6 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 7 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 8 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 9 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 10 THD Data: <span id="displayNumber"></span>%</td></tr> 
+                                <tr><td>Server 1 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 2 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 3 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 4 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 5 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 6 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 7 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 8 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 9 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 10 CTHD Data: <span id="displayNumber"></span>%</td></tr> 
                               </table>
                           </div>
                   
                           <div class="col" style="flex: 1; max-width: 30%;">
-                              <input type="button" onclick="DisplayTHDData()" value="Display Server 6 THD Data">
+                              <input type="button" onclick="DisplayTHDData()" value="Display Server 6 CTHD Data">
                               <br><br>
                               <table style="width:100%">
                                   <tr>
@@ -819,16 +876,16 @@ Baud:
                                   </tr>
                               </table>
                               <table style="width:100%">
-                                <tr><td>Server 1 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 2 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 3 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 4 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 5 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 6 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 7 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 8 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 9 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 10 THD Data: <span id="displayNumber"></span>%</td></tr> 
+                                <tr><td>Server 1 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 2 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 3 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 4 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 5 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 6 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 7 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 8 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 9 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 10 CTHD Data: <span id="displayNumber"></span>%</td></tr> 
                               </table>
                           </div>
                       </div>
@@ -844,7 +901,7 @@ Baud:
                     <div class="row" style="display: flex; justify-content: space-around; max-width: 1200px; width: 100%;">
 
                         <div class="col" style="flex: 1; max-width: 30%;">
-                            <input type="button" onclick="DisplayTHDData()" value="Display Server 7 THD Data">
+                            <input type="button" onclick="DisplayTHDData()" value="Display Server 7 CTHD Data">
                             <br><br>
                             <table style="width:100%">
                                 <tr>
@@ -852,21 +909,21 @@ Baud:
                                 </tr>
                             </table>
                             <table style="width:100%">
-                                <tr><td>Server 1 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 2 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 3 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 4 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 5 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 6 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 7 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 8 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 9 THD Data: <span id="displayNumber"></span>%</td></tr>
-                                <tr><td>Server 10 THD Data: <span id="displayNumber"></span>%</td></tr>                                                                                                            
+                                <tr><td>Server 1 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 2 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 3 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 4 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 5 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 6 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 7 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 8 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 9 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                                <tr><td>Server 10 CTHD Data: <span id="displayNumber"></span>%</td></tr>                                                                                                            
                             </table>
                         </div>
                 
                         <div class="col" style="flex: 1; max-width: 30%;">
-                            <input type="button" onclick="DisplayTHDData()" value="Display Server 8 THD Data">
+                            <input type="button" onclick="DisplayTHDData()" value="Display Server 8 CTHD Data">
                             <br><br>
                             <table style="width:100%">
                                 <tr>
@@ -874,21 +931,21 @@ Baud:
                                 </tr>
                             </table>
                             <table style="width:100%">
-                              <tr><td>Server 1 THD Data: <span id="displayNumber"></span>%</td></tr>
-                              <tr><td>Server 2 THD Data: <span id="displayNumber"></span>%</td></tr>
-                              <tr><td>Server 3 THD Data: <span id="displayNumber"></span>%</td></tr>
-                              <tr><td>Server 4 THD Data: <span id="displayNumber"></span>%</td></tr>
-                              <tr><td>Server 5 THD Data: <span id="displayNumber"></span>%</td></tr>
-                              <tr><td>Server 6 THD Data: <span id="displayNumber"></span>%</td></tr>
-                              <tr><td>Server 7 THD Data: <span id="displayNumber"></span>%</td></tr>
-                              <tr><td>Server 8 THD Data: <span id="displayNumber"></span>%</td></tr>
-                              <tr><td>Server 9 THD Data: <span id="displayNumber"></span>%</td></tr>
-                              <tr><td>Server 10 THD Data: <span id="displayNumber"></span>%</td></tr> 
+                              <tr><td>Server 1 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                              <tr><td>Server 2 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                              <tr><td>Server 3 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                              <tr><td>Server 4 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                              <tr><td>Server 5 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                              <tr><td>Server 6 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                              <tr><td>Server 7 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                              <tr><td>Server 8 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                              <tr><td>Server 9 CTHD Data: <span id="displayNumber"></span>%</td></tr>
+                              <tr><td>Server 10 CTHD Data: <span id="displayNumber"></span>%</td></tr> 
                             </table>
                         </div>
                 
                         <div class="col" style="flex: 1; max-width: 30%;">
-                            <input type="button" onclick="DisplayTHDData()" value="Display Server 9 THD Data">
+                            <input type="button" onclick="DisplayTHDData()" value="Display Server 9 CTHD Data">
                             <br><br>
                             <table style="width:100%">
                                 <tr>
@@ -896,16 +953,16 @@ Baud:
                                 </tr>
                             </table>
                             <table style="width:100%">
-                              <tr><td>Server 1 THD Data: <span id="displayNumber21"></span>%</td></tr>
-                              <tr><td>Server 2 THD Data: <span id="displayNumber22"></span>%</td></tr>
-                              <tr><td>Server 3 THD Data: <span id="displayNumber23"></span>%</td></tr>
-                              <tr><td>Server 4 THD Data: <span id="displayNumber24"></span>%</td></tr>
-                              <tr><td>Server 5 THD Data: <span id="displayNumber25"></span>%</td></tr>
-                              <tr><td>Server 6 THD Data: <span id="displayNumber26"></span>%</td></tr>
-                              <tr><td>Server 7 THD Data: <span id="displayNumber27"></span>%</td></tr>
-                              <tr><td>Server 8 THD Data: <span id="displayNumber28"></span>%</td></tr>
-                              <tr><td>Server 9 THD Data: <span id="displayNumber29"></span>%</td></tr>
-                              <tr><td>Server 10 THD Data: <span id="displayNumber30"></span>%</td></tr> 
+                              <tr><td>Server 1 CTHD Data: <span id="displayNumber21"></span>%</td></tr>
+                              <tr><td>Server 2 CTHD Data: <span id="displayNumber22"></span>%</td></tr>
+                              <tr><td>Server 3 CTHD Data: <span id="displayNumber23"></span>%</td></tr>
+                              <tr><td>Server 4 CTHD Data: <span id="displayNumber24"></span>%</td></tr>
+                              <tr><td>Server 5 CTHD Data: <span id="displayNumber25"></span>%</td></tr>
+                              <tr><td>Server 6 CTHD Data: <span id="displayNumber26"></span>%</td></tr>
+                              <tr><td>Server 7 CTHD Data: <span id="displayNumber27"></span>%</td></tr>
+                              <tr><td>Server 8 CTHD Data: <span id="displayNumber28"></span>%</td></tr>
+                              <tr><td>Server 9 CTHD Data: <span id="displayNumber29"></span>%</td></tr>
+                              <tr><td>Server 10 CTHD Data: <span id="displayNumber30"></span>%</td></tr> 
                             </table>
                         </div>
                     </div>
