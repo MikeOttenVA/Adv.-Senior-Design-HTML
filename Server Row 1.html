@@ -346,20 +346,21 @@ Baud:
             // Get the display element
             if(server == "1"){
                 var displayElement = document.getElementById('displayNumber1'); //displayNumber1
-                displayElement.innerHTML = thd_value;
+                displayElement.innerHTML = thd_value; //thd_value
                 // Apply color based on the number
-                if (thd_value < 50) {
+                if (thd_value < 50) { // thd_value<50
                     displayElement.style.color = 'green';
                 } else if (thd_value >= 50 && thd_value <= 100) {
                     displayElement.style.color = 'orange';
                 } else {
                     displayElement.style.color = 'red';
                 }
-                rms_current1 = rms_current;
+                rms_current1 = parseFloat(rms_current);
             } else if (server == "2"){
                 var displayElement = document.getElementById('displayNumber2'); //displayNumber1
-                displayElement.innerHTML = thd_value;
-
+                // thd_value = 0;
+                displayElement.innerHTML = thd_value0;
+                
                 // Apply color based on the number
                 if (thd_value <= 50) {
                     displayElement.style.color = 'green';
@@ -368,7 +369,8 @@ Baud:
                 } else {
                     displayElement.style.color = 'red';
                 }
-                rms_current2 = rms_current;
+                rms_current2 = parseFloat(rms_current);
+                // rms_current2 = 0;
             }
             // Display the random number
             if (thd_fundamental != "0"){
